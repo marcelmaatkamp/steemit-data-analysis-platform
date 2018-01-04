@@ -2,6 +2,8 @@ package application.serializers;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -16,7 +18,7 @@ import application.model.Vote;
 import application.repository.PersonRepository;
 
 // {"voter": "lauutorrez", "author": "blavin", "permlink": "seven-day-black-and-white-challenge-1st-entry", "weight": 1000}
-
+@Resource
 public class VoteDeserializer extends StdDeserializer<Vote> { 
  
     @Autowired
@@ -41,7 +43,7 @@ public class VoteDeserializer extends StdDeserializer<Vote> {
         // TODO: Voter and Author: Neo4j get person by name
         String voterName = node.get("voter").asText();
         Person voter = personRepository.findByName(voterName);
-        
+
         if(voter==null) { 
             voter = new Person(voterName);
             personRepository.save(voter);

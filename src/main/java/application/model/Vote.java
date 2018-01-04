@@ -12,7 +12,7 @@ import application.serializers.VoteDeserializer;
 // {"voter": "lauutorrez", "author": "blavin", "permlink": "seven-day-black-and-white-challenge-1st-entry", "weight": 1000}
 
 @NodeEntity
-@JsonDeserialize(using = VoteDeserializer.class)
+// @JsonDeserialize(using = VoteDeserializer.class)
 public class Vote {
 	@GraphId private Long id;
 
