@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <appender name="AMQP" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern>
+                <![CDATA[ %d %p %t [%c] - <%m>%n ]]>
+            </pattern>
+        </layout>
+        <host>rabbitmq</host>
+        <port>5672</port>
+        <username>iflex-producer-xml-amqp</username>
+        <password>iflex-producer-xml-amqp</password>
+        <exchangeType>direct</exchangeType>
+        <exchangeName>amq.direct</exchangeName>
+        <applicationId>producer-xml</applicationId>
+        <routingKeyPattern>%property{applicationId}.%c.%p</routingKeyPattern>
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <abbreviation>36</abbreviation>
+        <deliveryMode>NON_PERSISTENT</deliveryMode>
+        <declareExchange>true</declareExchange>
+    </appender>
+
+    <jmxConfigurator/>
+
+    <appender name="gelf" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+        <host>tcp:graylog</host>
+        <port>12201</port>
+        <version>1.1</version>
+        <facility>producer-xml</facility>
+        <extractStackTrace>true</extractStackTrace>
+        <filterStackTrace>true</filterStackTrace>
+        <mdcProfiling>true</mdcProfiling>
+        <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
+        <maximumMessageSize>8192</maximumMessageSize>
+        <mdcFields>mdcField1,mdcField2</mdcFields>
+        <dynamicMdcFields>mdc.*,(mdc|MDC)fields</dynamicMdcFields>
+        <includeFullMdc>true</includeFullMdc>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="gelf" />
+    </root>
+</configuration>

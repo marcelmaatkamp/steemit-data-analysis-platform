@@ -1,0 +1,122 @@
+buildscript {
+    repositories {
+        maven { url 'https://nexus/repository/remote-repos/' }
+        maven { url 'https://nexus/repository/gradle.plugins/' }
+    }
+
+    dependencies {
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath "org.codehaus.groovy:groovy-all:2.3.6"
+        classpath "nl.eveoh:gradle-aspectj:1.6"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+        classpath 'com.bmuschko:gradle-docker-plugin:3.2.1'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '1.5.9.RELEASE'
+    id "com.bmuschko.nexus" version "2.3.1"
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+allprojects {
+    apply plugin: 'application'
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'war'
+    apply plugin: "org.springframework.boot"
+    apply plugin: 'com.bmuschko.docker-remote-api'
+    apply plugin: 'com.bmuschko.docker-java-application'
+
+    // -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n
+    // HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:8080/health || exit 1
+
+    docker {
+        project.group = "nexus:5000/example"
+        url = "unix:///var/run/docker.sock"
+        javaApplication {
+            baseImage = 'anapsix/alpine-java:jre8'
+            maintainer = 'Marcel Maatkamp <m.maatkamp@gmail.com>'
+            ports = [5005, 8080]
+            registryCredentials {
+                url = 'https://nexus:5000'
+                username = 'admin'
+                password = 'admin123'
+                email = 'm.maatkamp@gmail.com'
+            }
+        }
+    }
+
+    repositories {
+        maven { url 'https://nexus/repository/remote-repos/' }
+    }
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '4.3.1'
+    }
+
+    bootRepackage {
+        enabled = false
+    }
+
+    jar {
+        zip64 = true
+    }
+
+    mainClassName = 'application.Application'
+
+    compileJava {
+        options.fork = true
+        options.forkOptions.setMemoryMaximumSize("4g")
+    }
+
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
+
+    nexus {
+        sign = false
+        repositoryUrl = 'https://nexus/repository/maven-releases'
+        snapshotRepositoryUrl = 'https://nexus/repository/maven--snapshots'
+    }
+
+}
+
+dependencies {
+
+    compile ("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile "org.springframework.boot:spring-boot-starter-amqp"
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "junit:junit"
+
+    compile "biz.paluch.logging:logstash-gelf:1.11.1"
+    compile "org.projectlombok:lombok"
+
+    compile "org.apache.mina:mina-core:2.0.5"
+    compile "org.apache.mina:mina-filter-compression:2.0.5"
+    compile "com.thoughtworks.xstream:xstream:1.4.10"
+    compile "org.apache.commons:commons-lang3:3.7"
+    compile "joda-time:joda-time:2.9.9"
+    compile "com.google.guava:guava:23.5-jre"
+    compile "org.codehaus.jettison:jettison:1.3.8"
+    compile "com.oracle:ojdbc8:12.2.0.1"
+    compile "com.oracle:orajsoda:1.0.4"
+    compile "javax.json:javax.json-api:1.1.2"
+    compile "org.glassfish:javax.json:1.1.2"
+
+}
+
