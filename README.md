@@ -4,6 +4,26 @@ Ingest steemit data into neo4j
 
 # Compile, test and Run
 
+## docker-compose
+
+```
+version: '2'
+services:
+
+  neo4j:
+    image: neo4j
+    restart: always
+    volumes:
+     - neo4j-data:/data
+     - neo4j-logs:/logs
+    logging:
+      options:
+        max-size: 50m
+volumes:
+ neo4j-data:
+ neo4j-logs:
+```
+
 ## Tasks
 ```
 $ gradle tasks
