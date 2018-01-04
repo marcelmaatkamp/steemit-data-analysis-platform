@@ -8,20 +8,23 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import application.model.Vote;
 
 @SpringBootApplication
 @Slf4j
 public class Application {
 
-    @RabbitListener(bindings =
-        @QueueBinding(
-            value = @Queue(value = "json-oracle", durable = "true"),
-            exchange = @Exchange(value = "json", type = "fanout", durable = "true")
-        )
-    )
-    public void process(byte[] message) {
+    @RabbitListener(queues = "steemit.votes")
+    public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException {
         String json = new String(message);
         log.info(json);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Vote vote = mapper.readValue(message, Vote.class);
     }
 
 
