@@ -2,16 +2,14 @@ package application.serializers;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.IntNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import com.jayway.jsonpath.internal.filter.ValueNode.StringNode;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import application.model.Person;
 import application.model.Vote;
