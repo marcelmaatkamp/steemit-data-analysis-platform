@@ -41,6 +41,7 @@ public class VoteDeserializer extends StdDeserializer<Vote> {
         // TODO: Voter and Author: Neo4j get person by name
         String voterName = node.get("voter").asText();
         Person voter = personRepository.findByName(voterName);
+        
         if(voter==null) { 
             voter = new Person(voterName);
             personRepository.save(voter);
