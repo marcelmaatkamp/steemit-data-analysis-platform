@@ -2,8 +2,8 @@ version: '2'
 
 services:
 
-  oracle:
-    image: nexus:5000/spring-boot-example/oracle:1.0
+  neo4j:
+    image: nexus:5000/spring-boot-example/neo4j:1.0
     environment:
      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005  -Dcom.sun.management.jmxremote -Djava.rmi.server.hostname=producer -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
      - spring.main.web-environment=true
