@@ -22,7 +22,7 @@ import application.repository.PersonRepository;
 public class VoteDeserializer extends StdDeserializer<Vote> { 
  
     @Autowired
-    PersonRepository personRepository;
+    public PersonRepository personRepository;
 
     public VoteDeserializer() { 
         this(null); 
@@ -55,6 +55,6 @@ public class VoteDeserializer extends StdDeserializer<Vote> {
             personRepository.save(author);
         }
 
-        return new Vote(voter, author, permlink, weight);
+        return new Vote(voter.name, author.name, permlink, weight);
     }
 }

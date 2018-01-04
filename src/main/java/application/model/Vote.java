@@ -16,8 +16,8 @@ import application.serializers.VoteDeserializer;
 public class Vote {
 	@GraphId private Long id;
 
-    public Person voter;
-    public Person author;
+    public String voter;
+    public String author;
     public String permlink;
     public long weight;
 
@@ -26,7 +26,7 @@ public class Vote {
 	};
 
     @JsonCreator
-    public Vote(@JsonProperty("voter") Person voter, @JsonProperty("author") Person author, @JsonProperty("permlink") String permlink, @JsonProperty("weight") long weight){
+    public Vote(@JsonProperty("voter") String voter, @JsonProperty("author") String author, @JsonProperty("permlink") String permlink, @JsonProperty("weight") long weight){
         this.voter = voter;
         this.author = author;
         this.permlink = permlink;
