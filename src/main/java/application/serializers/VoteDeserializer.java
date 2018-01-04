@@ -36,7 +36,7 @@ public class VoteDeserializer extends StdDeserializer<Vote> {
         JsonNode node = jp.getCodec().readTree(jp);
 
         String permlink = node.get("permlink").asText();
-        int weight = (Integer) ((IntNode) node.get("id")).numberValue();
+        int weight = (Integer) ((IntNode) node.get("weight")).numberValue();
 
         // TODO: Voter and Author: Neo4j get person by name
         String voterName = node.get("voter").asText();
