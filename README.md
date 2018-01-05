@@ -2,6 +2,8 @@
 
 Ingest steemit data into neo4j
 
+![image](https://raw.githubusercontent.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/master/documentation/images/graph_version_1.png)
+
 # Compile, test and Run
 
 ```
