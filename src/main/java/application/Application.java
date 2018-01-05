@@ -6,6 +6,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -35,7 +38,8 @@ public class Application {
     @RabbitListener(bindings =
         @QueueBinding(
             value = @Queue(value = "steemit.votes", durable = "true"),
-            exchange = @Exchange(value = "amq.topic", type = "topic", durable = "true")
+            exchange = @Exchange(value = "amq.topic", type = "topic", durable = "true"),
+            key = "steemit.vote"
         )
     )
 

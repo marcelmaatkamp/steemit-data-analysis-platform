@@ -5,7 +5,15 @@ Ingest steemit data into neo4j
 # Compile, test and Run
 
 ```
-    "java.jdt.ls.vmargs": "-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=9050"
+{
+    "files.autoSave": "afterDelay",
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "java.trace.server": "messages",
+    "java.jdt.ls.vmargs": "-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=9050 -javaagent:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar -Xbootclasspath/a:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar"
+
+}
 ```
 ## docker-compose
 
