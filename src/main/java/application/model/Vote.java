@@ -7,8 +7,8 @@ import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 public class Vote {
-    @GraphId
-    private long id;
+
+    @GraphId Long id;
     
     public Vote() { }
     public Person voter;

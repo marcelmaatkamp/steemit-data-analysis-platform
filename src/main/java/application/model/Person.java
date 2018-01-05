@@ -5,9 +5,8 @@ import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 public class Person {
-    @GraphId
-    private long id;
-    
+    @GraphId Long id;
+
     public Person() { }
     public Person(String name) {
         this.name = name;

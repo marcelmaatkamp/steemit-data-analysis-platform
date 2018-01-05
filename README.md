@@ -35,6 +35,8 @@ volumes:
  neo4j-logs:
 ```
 
+http://neo4j:7474/browser/
+
 ## Tasks
 ```
 $ gradle tasks

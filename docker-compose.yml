@@ -14,6 +14,16 @@ services:
      - endpoints.beans.enabled=true
 #    - spring.application.admin.jmx-port=1099
 #    - com.sun.management.jmxremote.port=1099
+     - spring.main.web-environment=false
+     - spring.rabbitmq.host=rabbitmq
+     - spring.rabbitmq.port=5672
+     - spring.rabbitmq.username=consumer-steemit-neo4j
+     - spring.rabbitmq.password=consumer-steemit-neo4j
+
+     - spring.data.neo4j.uri=bolt://neo4j
+     - spring.data.neo4j.username=neo4j
+     - spring.data.neo4j.password=spring-boot-neo4j
+     - spring.data.neo4j.repositories.enabled=true
     logging:
       options:
         max-size: 50m
