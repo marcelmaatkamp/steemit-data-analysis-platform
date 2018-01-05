@@ -31,3 +31,4 @@ crawler/
 deps
 images/
 .sts4-cache/
+.env

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -18,6 +19,7 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import application.model.Vote;
 import application.repository.PersonRepository;
 import application.repository.VoteRepository;
+import eu.bittrade.libs.steemj.SteemJ;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
@@ -34,22 +36,18 @@ public class Application {
     @Autowired
     ObjectMapper objectMapper;
 
-    @RabbitListener(queues = "steemit.votes")
+    @Autowired
+    SteemJ steemj;
+
     @RabbitListener(bindings =
         @QueueBinding(
-            value = @Queue(value = "steemit.votes", durable = "true"),
-            exchange = @Exchange(value = "amq.topic", type = "topic", durable = "true"),
+            exchange = @Exchange(value = "amq.topic", type = ExchangeTypes.TOPIC, durable = "true"),
+            value = @Queue(value = "steemit.api.votes", durable = "true"),
             key = "steemit.vote"
         )
     )
-
     public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException {
-        String json = new String(message);
-
-        ObjectMapper mapper = new ObjectMapper();
-        Vote vote = mapper.readValue(json, Vote.class);
-        voteRepository.save(vote);
-        log.info(json, vote);
+        Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
     }
 
     public static void main(String[] args) {

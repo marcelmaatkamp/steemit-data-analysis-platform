@@ -3,8 +3,9 @@ version: '2'
 services:
 
   neo4j:
-    image: nexus:5000/spring-boot-example/neo4j:1.0
+    image: nexus:5000/example/java-spring-boot-example-neo4j-steemit:1.0
     environment:
+     - logging.level.org=DEBUG
      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005  -Dcom.sun.management.jmxremote -Djava.rmi.server.hostname=producer -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
      - spring.main.web-environment=true
      - spring.profiles.active=test
@@ -24,6 +25,11 @@ services:
      - spring.data.neo4j.username=neo4j
      - spring.data.neo4j.password=spring-boot-neo4j
      - spring.data.neo4j.repositories.enabled=true
+
+     - steemit.account.name=${steemit_account_name}
+     - steemit.account.key.post=${steemit_account_key_post}
+     - steemit.account.key.active=${steemit_account_key_active}
+     
     logging:
       options:
         max-size: 50m
