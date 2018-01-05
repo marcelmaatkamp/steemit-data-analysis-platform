@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -66,9 +67,9 @@ public class Application {
         Discussion discussion = steemj.getContent(new AccountName(vote.author.name), new Permlink(vote.permlink));
 
         ExtendedAccount extendedAuthorAccount = extendedAccounts.get(0);
-        log.info(extendedAuthorAccount.getJsonMetadata());
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
-        log.info(extendedVoterAccount.getJsonMetadata());
+
+        BeanUtils.copyProperties(vote.author, extendedAuthorAccount);
     }
 
     public static void main(String[] args) {

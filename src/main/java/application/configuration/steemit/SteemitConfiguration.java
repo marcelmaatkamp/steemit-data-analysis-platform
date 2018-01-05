@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
+import eu.bittrade.libs.steemj.base.models.SignedBlockHeader;
+import eu.bittrade.libs.steemj.communication.BlockAppliedCallback;
 import eu.bittrade.libs.steemj.configuration.SteemJConfig;
 import eu.bittrade.libs.steemj.enums.PrivateKeyType;
 import eu.bittrade.libs.steemj.exceptions.SteemCommunicationException;
@@ -48,8 +50,22 @@ public class SteemitConfiguration {
     }
 
     @Bean
+    BlockAppliedCallback blockAppliedCallback() { 
+        BlockAppliedCallback blockAppliedCallback = new BlockAppliedCallback(){
+        
+            @Override
+            public void onNewBlock(SignedBlockHeader signedBlockHeader) {
+                log.info(signedBlockHeader);
+            }
+        };
+
+        return blockAppliedCallback;
+    }
+
+    @Bean
     SteemJ steemj() throws SteemCommunicationException, SteemResponseException { 
         SteemJ steemj = new SteemJ();
+        steemj.setBlockAppliedCallback(blockAppliedCallback());
         return steemj;
     }
 }
