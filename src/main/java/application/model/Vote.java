@@ -11,8 +11,8 @@ public class Vote {
     @GraphId Long id;
     
     public Vote() { }
-    public Person voter;
-    public Person author;
+    public ExtendedAccount voter;
+    public ExtendedAccount author;
     public String permlink;
     public int weight;
 }

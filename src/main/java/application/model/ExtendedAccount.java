@@ -4,11 +4,11 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
-public class Person {
+public class ExtendedAccount {
     @GraphId Long id;
 
-    public Person() { }
-    public Person(String name) {
+    public ExtendedAccount() { }
+    public ExtendedAccount(String name) {
         this.name = name;
     }
     public String name;

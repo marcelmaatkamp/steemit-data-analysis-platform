@@ -1,6 +1,8 @@
 package application;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -17,9 +19,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 import application.model.Vote;
-import application.repository.PersonRepository;
+import application.repository.ExtendedAccountRepository;
 import application.repository.VoteRepository;
 import eu.bittrade.libs.steemj.SteemJ;
+import eu.bittrade.libs.steemj.apis.database.models.state.Discussion;
+import eu.bittrade.libs.steemj.base.models.AccountName;
+import eu.bittrade.libs.steemj.base.models.ExtendedAccount;
+import eu.bittrade.libs.steemj.base.models.Permlink;
+import eu.bittrade.libs.steemj.exceptions.SteemCommunicationException;
+import eu.bittrade.libs.steemj.exceptions.SteemResponseException;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
@@ -31,7 +39,7 @@ public class Application {
     VoteRepository voteRepository;
 
     @Autowired
-    PersonRepository personRepository;
+    ExtendedAccountRepository extendedAccountRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -46,8 +54,21 @@ public class Application {
             key = "steemit.vote"
         )
     )
-    public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException {
+    public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException, SteemCommunicationException, SteemResponseException {
         Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
+        List<ExtendedAccount> extendedAccounts = steemj.getAccounts(Arrays.asList(
+            new AccountName[] { 
+                new AccountName(vote.author.name), 
+                new AccountName(vote.voter.name) 
+            }
+        ));
+
+        Discussion discussion = steemj.getContent(new AccountName(vote.author.name), new Permlink(vote.permlink));
+
+        ExtendedAccount extendedAuthorAccount = extendedAccounts.get(0);
+        log.info(extendedAuthorAccount.getJsonMetadata());
+        ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
+        log.info(extendedVoterAccount.getJsonMetadata());
     }
 
     public static void main(String[] args) {
