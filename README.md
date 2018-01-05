@@ -4,6 +4,9 @@ Ingest steemit data into neo4j
 
 # Compile, test and Run
 
+```
+    "java.jdt.ls.vmargs": "-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=9050"
+```
 ## docker-compose
 
 ```

@@ -1,17 +1,17 @@
 package application.configuration.jackson;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import application.serializers.VoteDeserializer;
-
 @Configuration
-public class JacksonConfiguration { 
+public class JacksonConfiguration {
 
-        @Bean
-        public VoteDeserializer voteDeserializer() { 
-            VoteDeserializer voteDeserializer = new VoteDeserializer();
-            return voteDeserializer;
-        }
-    
+    @Bean
+    ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper;
+    }
+
 }

@@ -1,8 +1,5 @@
-package application.model;
+package json.model;
 
-import org.neo4j.ogm.annotation.NodeEntity;
-
-@NodeEntity
 public class Person {
     public Person() { }
     public Person(String name) {
