@@ -15,6 +15,8 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
@@ -34,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @Slf4j
 @EnableNeo4jRepositories
-public class Application {
+public class Application implements ApplicationRunner {
 
     @Autowired
     VoteRepository voteRepository;
@@ -46,7 +48,7 @@ public class Application {
     ObjectMapper objectMapper;
 
     @Autowired
-    SteemJ steemj;
+    SteemJ steemJ;
 
     @RabbitListener(bindings =
         @QueueBinding(
@@ -57,14 +59,14 @@ public class Application {
     )
     public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException, SteemCommunicationException, SteemResponseException {
         Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
-        List<ExtendedAccount> extendedAccounts = steemj.getAccounts(Arrays.asList(
+        List<ExtendedAccount> extendedAccounts = steemJ.getAccounts(Arrays.asList(
             new AccountName[] { 
                 new AccountName(vote.author.name), 
                 new AccountName(vote.voter.name) 
             }
         ));
 
-        Discussion discussion = steemj.getContent(new AccountName(vote.author.name), new Permlink(vote.permlink));
+        Discussion discussion = steemJ.getContent(new AccountName(vote.author.name), new Permlink(vote.permlink));
 
         ExtendedAccount extendedAuthorAccount = extendedAccounts.get(0);
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
@@ -74,6 +76,11 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        // log.info("" + steemJ.createComment(new AccountName("steemj"), new Permlink("testofsteemj040"), "Example comment without no link but with a @user .", new String[] { "test" }));
     }
 
 }

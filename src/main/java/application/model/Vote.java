@@ -11,8 +11,8 @@ public class Vote {
     @GraphId Long id;
     
     public Vote() { }
-    public ExtendedAccount voter;
-    public ExtendedAccount author;
+    public ExtendedSteemjAccount voter;
+    public ExtendedSteemjAccount author;
     public String permlink;
     public int weight;
 }

@@ -6,6 +6,7 @@ Ingest steemit data into neo4j
 
 # Compile, test and Run
 
+VSCode settings
 ```
 {
     "files.autoSave": "afterDelay",
@@ -13,10 +14,33 @@ Ingest steemit data into neo4j
     "git.autofetch": true,
     "git.enableSmartCommit": true,
     "java.trace.server": "messages",
-    "java.jdt.ls.vmargs": "-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=9050 -javaagent:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar -Xbootclasspath/a:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar"
-
+    "java.jdt.ls.vmargs": "-DsocksProxyHost=localhost -DsocksProxyPort=9050 -javaagent:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar -Xbootclasspath/a:/Users/marcel/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.14/8486573ff5a5f17f48920c860caf534e7461976b/lombok-1.16.14.jar"
 }
 ```
+
+VSCode launch.json
+```
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Application<java-spring-boot-example-neo4j-steemit>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "application.Application",
+            "projectName": "java-spring-boot-example-neo4j-steemit",
+            "args": ""
+        }
+    ]
+}
+```
+
 ## docker-compose
 
 ```
@@ -32,6 +56,7 @@ services:
     logging:
       options:
         max-size: 50m
+        
 volumes:
  neo4j-data:
  neo4j-logs:
@@ -57,7 +82,7 @@ $ gradle compileJava
 
 ## Test
 ```
-$ gradle test
+$ steemit_account_name=STEEM.USERNAME steemit_account_key_post=STEEM.POST_KEY steemit_account_key_active=STEEM.ACTIVE_KEY gradle test -i
 ```
 
 ## Run

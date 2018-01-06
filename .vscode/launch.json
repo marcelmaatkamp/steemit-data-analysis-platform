@@ -6,16 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "stopOnEntry": false,
-            "mainClass": "",
-            "args": ""
-        },
-        {
-            "type": "java",
             "name": "Debug (Launch)-Application<java-spring-boot-example-neo4j-steemit>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -24,13 +14,6 @@
             "mainClass": "application.Application",
             "projectName": "java-spring-boot-example-neo4j-steemit",
             "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Debug (Attach)",
-            "request": "attach",
-            "hostName": "localhost",
-            "port": 0
         }
     ]
 }
