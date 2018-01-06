@@ -8,10 +8,20 @@ import org.neo4j.ogm.annotation.NodeEntity;
 @NodeEntity
 public class PublicKey {
 
-    @GraphId Long id;
-    public PublicKey() { }
-
     // private ECKey publicKey;
     public String prefix;
+    @GraphId
+    Long id;
+
+    public PublicKey() {
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
     
 }
