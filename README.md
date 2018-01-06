@@ -35,6 +35,7 @@ VSCode launch.json
             "stopOnEntry": false,
             "mainClass": "application.Application",
             "projectName": "java-spring-boot-example-neo4j-steemit",
+            "vmArgs": "-Dsteemit.account.name=STEEM_USERNAME -Dsteemit.account.key.post=STEEM_POSTKEY -Dsteemit.account.key.active=STEEM_ACTIVEKEY",
             "args": ""
         }
     ]

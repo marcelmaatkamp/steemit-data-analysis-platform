@@ -56,6 +56,7 @@ public class Application implements ApplicationRunner {
             value = @Queue(value = "${steemit.rabbitmq.queue.votes}", durable = "true"),
             key = "steemit.vote"
         )
+        // ,containerFactory="STATUS_LISTENER_CONTAINER_FACTORY"
     )
     public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException, SteemCommunicationException, SteemResponseException {
         Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
