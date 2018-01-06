@@ -1,4 +1,4 @@
-package application.model;
+package application.model.steemj;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.neo4j.ogm.annotation.GraphId;

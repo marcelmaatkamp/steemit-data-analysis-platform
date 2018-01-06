@@ -1,4 +1,4 @@
-package application.model;
+package application.model.steemj;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;

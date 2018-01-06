@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-
 @Configuration
 public class RabbitMQConfiguration { 
 
@@ -17,7 +15,7 @@ public class RabbitMQConfiguration {
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setConcurrentConsumers(10);
+        factory.setConcurrentConsumers(1);
         return factory;
     }
 }

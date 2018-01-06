@@ -1,7 +1,7 @@
 package application.model.json;
 
-import application.model.ExtendedAccount;
-import eu.bittrade.libs.steemj.base.models.Permlink;
+import application.model.steemj.ExtendedAccount;
+import application.model.steemj.Permlink;
 import org.neo4j.ogm.annotation.GraphId;
 
 // {"voter": "lauutorrez", "author": "blavin", "permlink": "seven-day-black-and-white-challenge-1st-entry", "weight": 1000}

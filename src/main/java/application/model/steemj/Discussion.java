@@ -1,4 +1,4 @@
-package application.model;
+package application.model.steemj;
 
 import eu.bittrade.libs.steemj.base.models.AccountName;
 import eu.bittrade.libs.steemj.base.models.Asset;

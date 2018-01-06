@@ -1,4 +1,4 @@
-package application.model;
+package application.model.steemj;
 
 import eu.bittrade.libs.steemj.util.SteemJUtils;
 import org.neo4j.ogm.annotation.GraphId;
