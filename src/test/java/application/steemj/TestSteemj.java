@@ -22,30 +22,31 @@ import lombok.extern.slf4j.Slf4j;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes= { Application.class })
-@Slf4j
-public class TestSteemj { 
+@SpringBootTest(classes = { Application.class })
+        @ Slf4j
+public class TestSteemj {
 
     @Autowired
     SteemJ steemJ;
 
     @Test
-    public void testPost() { 
+    public void testPost() {
         log.info("testpost");
-        
+
         CommentOperation commentOperation;
-		try {
+        try {
             // https://steemit.com/test/@steemj/testofsteemj040
-            commentOperation = steemJ.createComment(new AccountName("steemj"), new Permlink("testofsteemj040"), "Example comment without no link but with a @user .", new String[] { "test" });
+            commentOperation = steemJ.createComment(new AccountName("steemj"), new Permlink("testofsteemj040"),
+                    "Example comment without no link but with a @user .", new String[] { "test" });
             assertEquals("testofsteemj040", commentOperation.getParentPermlink().getLink());
             steemJ.deletePostOrComment(commentOperation.getPermlink());
-		} catch (SteemCommunicationException e) {
-			log.error("SteemCommunicationException", e);
-		} catch (SteemResponseException e) {
-			log.error("SteemResponseException", e);
-		} catch (SteemInvalidTransactionException e) {
-			log.error("SteemInvalidTransactionException", e);
-		} 
+        } catch (SteemCommunicationException e) {
+            log.error("SteemCommunicationException", e);
+        } catch (SteemResponseException e) {
+            log.error("SteemResponseException", e);
+        } catch (SteemInvalidTransactionException e) {
+            log.error("SteemInvalidTransactionException", e);
+        }
     }
 
 }

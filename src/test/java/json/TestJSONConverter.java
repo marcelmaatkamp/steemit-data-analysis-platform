@@ -16,7 +16,7 @@ public class TestJSONConverter {
     public void testConverter() throws JsonParseException, JsonMappingException, IOException {
         String jsonString = "{\"voter\": \"lauutorrez\", \"author\": \"blavin\", \"permlink\": \"seven-day-black-and-white-challenge-1st-entry\", \"weight\": 1000}";
 
-        ObjectMapper mapper = new ObjectMapper();        
+        ObjectMapper mapper = new ObjectMapper();
         Vote vote = mapper.readValue(jsonString, json.model.Vote.class);
         System.out.println(vote);
 
