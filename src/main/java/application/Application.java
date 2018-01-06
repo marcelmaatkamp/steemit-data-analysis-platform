@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -59,20 +60,31 @@ public class Application implements ApplicationRunner {
         // ,containerFactory="STATUS_LISTENER_CONTAINER_FACTORY"
     )
     public void process(byte[] message) throws JsonParseException, JsonMappingException, IOException, SteemCommunicationException, SteemResponseException {
-        Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
+        // Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
+        Vote vote = objectMapper.readValue(new String(message), Vote.class);
         List<ExtendedAccount> extendedAccounts = steemJ.getAccounts(Arrays.asList(
             new AccountName[] { 
-                new AccountName(vote.author.name), 
-                new AccountName(vote.voter.name) 
+                new AccountName(vote.author.name.name), 
+                new AccountName(vote.voter.name.name) 
             }
         ));
 
-        Discussion discussion = steemJ.getContent(new AccountName(vote.author.name), new Permlink(vote.permlink));
+        Discussion discussion = steemJ.getContent(new AccountName(vote.author.name.name), new Permlink(vote.permlink));
 
         ExtendedAccount extendedAuthorAccount = extendedAccounts.get(0);
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
 
-        BeanUtils.copyProperties(vote.author, extendedAuthorAccount);
+        application.model.ExtendedAccount extendedAuthorAccountNeo4j = new application.model.ExtendedAccount();
+        BeanUtils.copyProperties(extendedAuthorAccount, extendedAuthorAccountNeo4j);
+        log.info("extendedAuthorAccount: " + ReflectionToStringBuilder.toString(extendedAuthorAccount));
+        log.info("extendedAuthorAccountNeo4j: " + ReflectionToStringBuilder.toString(extendedAuthorAccountNeo4j));
+        // extendedAccountRepository.save(extendedAuthorAccountNeo4j);
+
+        application.model.ExtendedAccount extendedVoterAccountNeo4j = new application.model.ExtendedAccount();
+        BeanUtils.copyProperties(extendedVoterAccount, extendedVoterAccountNeo4j);
+        log.info("extendedVoterAccount: " + ReflectionToStringBuilder.toString(extendedVoterAccount));
+        log.info("extendedVoterAccountNeo4j: " + ReflectionToStringBuilder.toString(extendedVoterAccountNeo4j));
+        // extendedAccountRepository.save(extendedVoterAccountNeo4j);
     }
 
     public static void main(String[] args) {

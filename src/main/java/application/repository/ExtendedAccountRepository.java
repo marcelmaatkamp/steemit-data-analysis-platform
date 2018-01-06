@@ -2,9 +2,9 @@ package application.repository;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import application.model.ExtendedSteemjAccount;
+import application.model.ExtendedAccount;
 
 
-public interface ExtendedAccountRepository extends GraphRepository<ExtendedSteemjAccount> {
-    ExtendedSteemjAccount findByName(String name);
+public interface ExtendedAccountRepository extends GraphRepository<ExtendedAccount> {
+    ExtendedAccount findByName(String name);
 }

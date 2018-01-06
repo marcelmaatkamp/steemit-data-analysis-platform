@@ -6,13 +6,12 @@ import org.neo4j.ogm.annotation.NodeEntity;
 // {"voter": "lauutorrez", "author": "blavin", "permlink": "seven-day-black-and-white-challenge-1st-entry", "weight": 1000}
 
 @NodeEntity
-public class Vote {
+public class PublicKey {
 
     @GraphId Long id;
+    public PublicKey() { }
+
+    // private ECKey publicKey;
+    public String prefix;
     
-    public Vote() { }
-    public ExtendedAccount voter;
-    public ExtendedAccount author;
-    public String permlink;
-    public int weight;
 }

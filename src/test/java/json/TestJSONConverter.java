@@ -2,11 +2,14 @@ package json;
 
 import static org.junit.Assert.assertEquals;
 
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import application.model.Account;
 
 import org.junit.Test;
 
@@ -23,5 +26,16 @@ public class TestJSONConverter {
         System.out.println(vote);
 
         assertEquals(vote.voter.name, "lauutorrez");
+    }
+
+    @Test 
+    public void testWriteableMethods() { 
+        Class<?> actualEditable = Account.class;
+		PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);
+		List<String> ignoreList = (ignoreProperties != null ? Arrays.asList(ignoreProperties) : null);
+
+		for (PropertyDescriptor targetPd : targetPds) {
+			Method writeMethod = targetPd.getWriteMethod();
+
     }
 }
