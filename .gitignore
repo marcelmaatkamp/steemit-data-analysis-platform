@@ -32,3 +32,4 @@ deps
 images/
 .sts4-cache/
 .env
+.vscode/launch.json

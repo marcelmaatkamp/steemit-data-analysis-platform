@@ -64,6 +64,12 @@ volumes:
 
 http://neo4j:7474/browser/
 
+## Delete data
+
+```
+MATCH (n) DETACH DELETE n;
+```
+
 ## Tasks
 ```
 $ gradle tasks

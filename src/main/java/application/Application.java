@@ -52,8 +52,8 @@ public class Application implements ApplicationRunner {
 
     @RabbitListener(bindings =
         @QueueBinding(
-            exchange = @Exchange(value = "amq.topic", type = ExchangeTypes.TOPIC, durable = "true"),
-            value = @Queue(value = "steemit.api.votes", durable = "true"),
+            exchange = @Exchange(value = "${steemit.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            value = @Queue(value = "${steemit.rabbitmq.queue.votes}", durable = "true"),
             key = "steemit.vote"
         )
     )
@@ -80,7 +80,9 @@ public class Application implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        // log.info("" + steemJ.createComment(new AccountName("steemj"), new Permlink("testofsteemj040"), "Example comment without no link but with a @user .", new String[] { "test" }));
+        log.info(("HF version fetched: " + steemJ.getHardforkVersion()));
+        log.info("Market ticker: " + steemJ.getTicker().toString());
+        log.info("block: " + steemJ.getBlock(1));
     }
 
 }

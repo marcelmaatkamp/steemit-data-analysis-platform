@@ -1,4 +1,4 @@
-package steemj;
+package application.steemj;
 
 import static org.junit.Assert.assertEquals;
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import application.utils.CustomCallback;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.apis.market.history.model.MarketTicker;
 import eu.bittrade.libs.steemj.base.models.AccountName;
@@ -67,16 +66,7 @@ public class SteemitConfiguration {
     @Bean
     SteemJ steemj() throws SteemCommunicationException, SteemResponseException { 
         SteemJ steemJ = new SteemJ();
-        // steemJ.setBlockAppliedCallback(blockAppliedCallback());
-        steemJ.setBlockAppliedCallback(new CustomCallback());
-
-        log.info(("HF version fetched: " + steemJ.getHardforkVersion()));
-
-        MarketTicker marketTicker = steemJ.getTicker();
-        log.info("Market ticker: " + marketTicker.toString());
-
-        log.info("block: " + steemJ.getBlock(1));
-
+        steemJ.setBlockAppliedCallback(blockAppliedCallback());
         return steemJ;
     }
 }
