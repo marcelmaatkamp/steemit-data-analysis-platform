@@ -5,7 +5,8 @@ https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/release
 I hereby release the first version of my project where I ingest Steem data in JSON format, put it in RabbitMQ via and ingest the data via java Spring Boot into Neo4j where I can query the data to find interesting patterns. I focussed for the first version on the votes coming from Steem to analyse who is voting on what and made a screenshot available to show the first results of what I found in the data. 
 
 Once the ingest is running Neo4j can be queried to find patterns in the data:
-![graph_version_1.0.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1515327395/aww7yainsoqt0rhu79cf.png)
+
+![graph_version_1.0.png](https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/blob/master/documentation/images/graph_version_1.0.png?raw=true)
 
 I do all this in my spare time so I hope that I can find some time to add more domain objects and make more sense of the data produced by the Steemit platform.
 
