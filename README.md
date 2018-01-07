@@ -46,8 +46,6 @@ To run this project the system needs the following locally installed:
   * https://neo4j.com/docs/ogm-manual/current/reference/
   * https://github.com/marvin-we/steem-java-api-wrapper/blob/master/sample/src/main/java/my/sample/project/SteemJUsageExample.java
 
-![image](https://raw.githubusercontent.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/master/documentation/images/graph_version_1.0.png)
-
 # Compile, test and Run
 
 VSCode settings
