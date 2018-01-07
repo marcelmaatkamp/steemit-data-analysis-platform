@@ -56,6 +56,20 @@ VSCode launch.json
 version: '2'
 services:
 
+  rabbitmq:
+    image: marcelmaatkamp/rabbitmq-mqtt-ldap
+    restart: always
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_NODENAME: rabbitmq@rabbitmq
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/mnesia
+      - ./etc/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
+      - nodepki-certs-rabbitmq:/certs/rabbitmq
+    logging:
+      options:
+        max-size: 50m
+        
   neo4j:
     image: neo4j
     restart: always
@@ -66,9 +80,23 @@ services:
       options:
         max-size: 50m
         
+  steemit-amqp:
+    restart: always
+    image: marcelmaatkamp/steemit-amqp
+    environment:
+     - RABBITMQ_HOSTNAME=rabbitmq
+     - RABBITMQ_EXCHANGE=steemit.api
+    volumes:
+     - ./credentials.py:/app/mycredentials.py
+    logging:
+      options:
+        max-size: 50m
+        
 volumes:
  neo4j-data:
  neo4j-logs:
+ rabbitmq:
+ 
 ```
 
 http://neo4j:7474/browser/
