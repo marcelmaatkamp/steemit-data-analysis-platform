@@ -1,8 +1,45 @@
-# Neo4j Steemit Ingest
+# Release v1.0
 
-Ingest steemit data into neo4j.
+https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/releases/tag/1.0
 
-First project: Detect and display the relations between authors of posts and voters on posts.
+I hereby release the first version of my project where I ingest Steem data in JSON format, put it in RabbitMQ via and ingest the data via java Spring Boot into Neo4j where I can query the data to find interesting patterns. I focussed for the first version on the votes coming from Steem to analyse who is voting on what and made a screenshot available to show the first results of what I found in the data. 
+
+Once the ingest is running Neo4j can be queried to find patterns in the data:
+![graph_version_1.0.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1515327395/aww7yainsoqt0rhu79cf.png)
+
+I do all this in my spare time so I hope that I can find some time to add more domain objects and make more sense of the data produced by the Steemit platform.
+
+Documentation I added in this initial release:
+
+ * Installation
+ * Documentation on how/to ingest and display data
+ * Added urls for external resources and
+ * Screenshots added showing patterns in the data ( and thus mission v1.0 accomplished!) 
+
+The code so far: 
+
+ * is a fully working version 
+ * has examples in src/scratchbook
+ * contains unit and integration tests and queries in src/test/java
+ * contains a dockerfile and has 
+ * docker-compose file added to bootstrap the project
+
+
+Plans to enhance this project could be:
+
+ * To make the data accessible and interactive via a web-interface 
+ * Generate a docker container with this project and  
+ * Instantiate a working version on a platform like "Heroku".
+
+Its a pity Steem does not let a author include interactive elements in its posts.
+
+# Prerequisites
+
+To run this project the system needs the following locally installed:
+
+ * A recent version of java,
+ * A recent version of gradle and have
+ * Docker and docker-compose
 
 # Documentation
   * https://neo4j.com/docs/ogm-manual/current/reference/
@@ -48,47 +85,6 @@ VSCode launch.json
 }
 ```
 
-# Release v1.0
-
-https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/releases/tag/1.0
-
-I hereby release the first version of my project where I ingest Steem data in JSON format, put it in RabbitMQ via and ingest the data via java Spring Boot into Neo4j where I can query the data to find interesting patterns. I focussed for the first version on the votes coming from Steem to analyse who is voting on what and made a screenshot available to show the first results of what I found in the data. 
-
-I do all this in my spare time so I hope that I can find some time to add more domain objects and make more sense of the data produced by the Steemit platform.
-
-Documentation I added in this initial release:
-
- * Installation
- * Documentation on how/to ingest and display data
- * Added urls for external resources and
- * Screenshots added showing patterns in the data ( and thus mission v1.0 accomplished!) 
-
-The code so far: 
-
- * is a fully working version 
- * has examples in src/scratchbook
- * contains unit and integration tests and queries in src/test/java
- * contains a dockerfile and has 
- * docker-compose file added to bootstrap the project
-
-Once the ingest is running Neo4j can be queried to find patterns in the data:
-![graph_version_1.0.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1515327395/aww7yainsoqt0rhu79cf.png)
-
-Plans to enhance this project could be:
-
- * To make the data accessible and interactive via a web-interface 
- * Generate a docker container with this project and  
- * Instantiate a working version on a platform like "Heroku".
-
-Its a pity Steem does not let a author include interactive elements in its posts.
-
-# Prerequisites
-
-To run this project the system needs the following locally installed:
-
- * A recent version of java,
- * A recent version of gradle and have
- * Docker and docker-compose
 
 # Installation
 
