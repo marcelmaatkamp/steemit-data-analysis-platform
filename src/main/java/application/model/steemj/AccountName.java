@@ -1,5 +1,6 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -27,5 +28,9 @@ public class AccountName {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
 }

@@ -1,31 +1,24 @@
-package application.model.steemj;
+package application.model.database;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
-public class Permlink {
-    public String link;
+public class Account {
+    public String name;
     @GraphId
     Long id;
 
-    public Permlink() {
+    public Account() {
     }
 
-    public Permlink(String link) {
-        this.link = link;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
+    public Account(String name) {
+        this.name = name;
     }
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
+
 }

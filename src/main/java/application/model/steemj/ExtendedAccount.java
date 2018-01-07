@@ -1,5 +1,6 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -116,6 +117,10 @@ public class ExtendedAccount extends Account {
 
     public void setRecommended(List<String> recommended) {
         this.recommended = recommended;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
     
 }

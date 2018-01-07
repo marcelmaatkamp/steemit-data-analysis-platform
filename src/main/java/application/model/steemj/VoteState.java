@@ -1,5 +1,6 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -68,6 +69,10 @@ public class VoteState {
 
     public void setTime(TimePointSec time) {
         this.time = time;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
 
 }

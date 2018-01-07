@@ -1,4 +1,4 @@
-package application.model.steemj;
+package application.model.database;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;

@@ -1,4 +1,4 @@
-package application.repository;
+package application.repository.steemj;
 
 import application.model.steemj.Discussion;
 import org.springframework.data.neo4j.repository.GraphRepository;

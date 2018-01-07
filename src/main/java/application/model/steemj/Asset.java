@@ -1,10 +1,12 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 public class Asset {
+
     public long amount;
     public AssetSymbolType symbol;
     public byte precision;
@@ -38,4 +40,7 @@ public class Asset {
         this.precision = precision;
     }
 
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }

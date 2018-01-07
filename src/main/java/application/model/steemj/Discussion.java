@@ -3,6 +3,7 @@ package application.model.steemj;
 import eu.bittrade.libs.steemj.base.models.AccountName;
 import eu.bittrade.libs.steemj.base.models.Asset;
 import eu.bittrade.libs.steemj.base.models.VoteState;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -121,5 +122,9 @@ public class Discussion extends Comment {
 
     public void setFirstRebloggedOn(Date firstRebloggedOn) {
         this.firstRebloggedOn = firstRebloggedOn;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
     }
 }

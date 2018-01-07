@@ -1,5 +1,6 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -23,5 +24,8 @@ public class PublicKey {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-    
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }

@@ -1,5 +1,6 @@
 package application.model.steemj;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -313,4 +314,7 @@ public class Comment {
         this.beneficiaries = beneficiaries;
     }
 
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }

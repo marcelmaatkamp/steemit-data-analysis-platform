@@ -3,6 +3,7 @@ package application.model.steemj;
 import eu.bittrade.libs.steemj.base.models.Asset;
 import eu.bittrade.libs.steemj.base.models.Authority;
 import eu.bittrade.libs.steemj.base.models.TimePointSec;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -537,6 +538,8 @@ public class Account {
         this.lastRootPost = lastRootPost;
     }
 
-    
-    
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 }

@@ -1,9 +1,13 @@
 package application;
 
-import application.model.database.VoteRelation;
-import application.model.json.Vote;
-import application.repository.*;
-import application.repository.streaming.VoteRelationRepository;
+import application.model.database.Author;
+import application.model.database.Permlink;
+import application.model.database.Vote;
+import application.model.database.Voter;
+import application.repository.database.AuthorRepository;
+import application.repository.database.PermlinkRepository;
+import application.repository.database.VoteRepository;
+import application.repository.database.VoterRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
@@ -16,7 +20,6 @@ import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -34,22 +37,16 @@ import java.util.List;
 public class Application implements ApplicationRunner {
 
     @Autowired
-    VoteRepository voteRepository;
+    AuthorRepository authorRepository;
 
     @Autowired
-    ExtendedAccountRepository extendedAccountRepository;
-
-    @Autowired
-    VoteStateRepository voteStateRepository;
-
-    @Autowired
-    DiscussionRepository discussionRepository;
+    VoterRepository voterRepository;
 
     @Autowired
     PermlinkRepository permlinkRepository;
 
     @Autowired
-    VoteRelationRepository voteRelationRepository;
+    VoteRepository voteRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -70,9 +67,8 @@ public class Application implements ApplicationRunner {
         // ,containerFactory="STATUS_LISTENER_CONTAINER_FACTORY"
     )
     public void process(byte[] message) throws IOException, SteemCommunicationException, SteemResponseException {
-        // Vote vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
-        Vote vote = objectMapper.readValue(new String(message), Vote.class);
-        log.info("vote: author(" + vote.author.name.name + "), voter(" + vote.voter.name.name + "), weigth(" + vote.weight + "), link(" + vote.permlink.getLink() + ")");
+        application.model.json.Vote vote = objectMapper.readValue(new String(message), application.model.json.Vote.class);
+        log.info("vote: " + vote.toString());
 
         List<ExtendedAccount> extendedAccounts = steemJ.getAccounts(Arrays.asList(
                 new AccountName(vote.author.name.name),
@@ -80,60 +76,26 @@ public class Application implements ApplicationRunner {
 
         // author
         ExtendedAccount extendedAuthorAccount = extendedAccounts.get(0);
-        application.model.steemj.ExtendedAccount extendedAuthorAccountNeo4j = extendedAccountRepository.findByName(extendedAuthorAccount.getName().getName());
-        if (extendedAuthorAccountNeo4j == null) {
-            extendedAuthorAccountNeo4j = new application.model.steemj.ExtendedAccount();
-            BeanUtils.copyProperties(extendedAuthorAccount, extendedAuthorAccountNeo4j);
-            extendedAuthorAccountNeo4j = extendedAccountRepository.save(extendedAuthorAccountNeo4j);
-        }
-
-        // voter
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
-        application.model.steemj.ExtendedAccount extendedVoterAccountNeo4j = extendedAccountRepository.findByName(extendedVoterAccount.getName().getName());
-        if (extendedVoterAccountNeo4j == null) {
-            extendedVoterAccountNeo4j = new application.model.steemj.ExtendedAccount();
-            BeanUtils.copyProperties(extendedVoterAccount, extendedVoterAccountNeo4j);
-            extendedVoterAccountNeo4j = extendedAccountRepository.save(extendedVoterAccountNeo4j);
-        }
 
-        // permlink
-        application.model.steemj.Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
+        // Lets insert into Neo4j
+        Author author = authorRepository.findByName(extendedAuthorAccount.getName().getName());
+        if (author == null) {
+            author = new Author(extendedAuthorAccount.getName().getName());
+        }
+        Voter voter = voterRepository.findByName(extendedVoterAccount.getName().getName());
+        if (voter == null) {
+            voter = new Voter(extendedVoterAccount.getName().getName());
+        }
+        Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
         if (permlink == null) {
-            permlink = permlinkRepository.save(vote.permlink);
+            permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
         }
-
-        // voteRelation
-        VoteRelation voteRelation = new VoteRelation();
-        voteRelation.author = extendedAuthorAccountNeo4j;
-        voteRelation.voter = extendedVoterAccountNeo4j;
-        voteRelation.permlink = permlink;
-        voteRelation.weight = vote.weight * extendedVoterAccount.getVotingPower();
-        voteRelation = voteRelationRepository.save(voteRelation);
-
-        // Discussion discussion = steemJ.getContent(new AccountName(vote.author.name.name), new Permlink(vote.permlink.getLink()));
-        // application.model.steemj.Discussion discussionNedo4j = new application.model.steemj.Discussion();
-        // BeanUtils.copyProperties(discussion, discussionNedo4j);
-        // discussionRepository.save(discussionNedo4j);
-
-
-        // application.model.steemj.ExtendedAccount extendedAuthorAccountNeo4j = new application.model.steemj.ExtendedAccount();
-        // BeanUtils.copyProperties(extendedAuthorAccount, extendedAuthorAccountNeo4j);
-        // log.info("extendedAuthorAccount: " + ReflectionToStringBuilder.toString(extendedAuthorAccount));
-        // log.info("extendedAuthorAccountNeo4j: " + ReflectionToStringBuilder.toString(extendedAuthorAccountNeo4j));
-        // extendedAuthorAccountNeo4j = extendedAccountRepository.save(extendedAuthorAccountNeo4j);
-        // vote.author = extendedAuthorAccountNeo4j;
-
-        // log.info("extendedVoterAccount: " + ReflectionToStringBuilder.toString(extendedVoterAccount));
-        // log.info("extendedVoterAccountNeo4j: " + ReflectionToStringBuilder.toString(extendedVoterAccountNeo4j));
-        // extendedVoterAccountNeo4j = extendedAccountRepository.save(extendedVoterAccountNeo4j);
-
-        // VoteState voteState = new VoteState();
-        // voteState.setVoter(vote.voter.name);
-
-        // voteState.setWeight(BigInteger.valueOf(vote.weight));
-        // voteState = voteStateRepository.save(voteState);
-        // vote.voter = extendedVoterAccountNeo4j;
-        // vote = voteRepository.save(objectMapper.readValue(new String(message), Vote.class));
+        Vote voteByBVoter = new Vote();
+        voteByBVoter.permlink = permlink;
+        voteByBVoter.voter = voter;
+        voteByBVoter.weight = vote.weight;
+        voteRepository.save(voteByBVoter);
     }
 
     @Override
