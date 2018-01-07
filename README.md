@@ -46,6 +46,8 @@ VSCode launch.json
 }
 ```
 
+# Neo4J
+
 ## docker-compose
 
 ```
@@ -69,18 +71,39 @@ volumes:
 
 http://neo4j:7474/browser/
 
-## Delete data
+## Display relationship data
+
+```
+MATCH (n) RETURN n LIMIT 1000;
+```
+
+## Delete neo4j data
 
 ```
 MATCH (n) DETACH DELETE n;
 ```
 
+# Development
+
 ## Tasks
+
+Display all possible tasks:
+
 ```
 $ gradle tasks
 ```
+## Intellij
+
+Build configuration, after which Intellij can open this directory as a new project:
+
+```
+$ gradle idea
+```
 
 ## Build
+
+Build code in terminal without an editor:
+
 ```
 $ gradle assemble
 ```
@@ -92,11 +115,17 @@ $ gradle compileJava
 ```
 
 ## Test
+
+Run all tests as defined in `src/test`
+
 ```
 $ steemit_account_name=STEEM.USERNAME steemit_account_key_post=STEEM.POST_KEY steemit_account_key_active=STEEM.ACTIVE_KEY gradle test -i
 ```
 
 ## Run
+
+Run the code in terminal
+
 ```
 $ gradle bootRun
 ```
@@ -104,6 +133,8 @@ $ gradle bootRun
 # Deploy
 
 ## Nexus
+
+Push code as jar in repository:
 
 `~/.gradle/gradle.properties`:
 
@@ -117,6 +148,9 @@ $ gradle uploadArchives
 ```
 
 ## Docker
+
+Push code as docker container in hub.docker.com:
+
 ```
 $ gradle dockerPushImage
 ```
