@@ -48,91 +48,98 @@ VSCode launch.json
 }
 ```
 
-# Services
+# Release v1.0
 
-Projects needs:
- * rabbitmq
- * neo4j
+https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/releases/tag/1.0
 
-## docker-compose
+I hereby release the first version of my project where I ingest Steem data in JSON format, put it in RabbitMQ via and ingest the data via java Spring Boot into Neo4j where I can query the data to find interesting patterns. I focussed for the first version on the votes coming from Steem to analyse who is voting on what and made a screenshot available to show the first results of what I found in the data. 
 
-```
-version: '2'
-services:
+I do all this in my spare time so I hope that I can find some time to add more domain objects and make more sense of the data produced by the Steemit platform.
 
-  socks-proxy:
-    # https://github.com/weaveworks/build-tools/blob/master/socks/Dockerfile 
-    image: weaveworks/socksproxy
-    restart: always
-    ports:
-      - 127.0.0.1:9050:8000
-    logging:
-      options:
-        max-size: 50m
+Documentation I added in this initial release:
 
-  rabbitmq:
-    image: marcelmaatkamp/rabbitmq-mqtt-ldap
-    restart: always
-    hostname: rabbitmq
-    environment:
-      RABBITMQ_NODENAME: rabbitmq@rabbitmq
-    volumes:
-      - rabbitmq:/var/lib/rabbitmq/mnesia
-      - ./etc/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
-      - nodepki-certs-rabbitmq:/certs/rabbitmq
-    logging:
-      options:
-        max-size: 50m
-        
-  neo4j:
-    image: neo4j
-    restart: always
-    volumes:
-     - neo4j-data:/data
-     - neo4j-logs:/logs
-    logging:
-      options:
-        max-size: 50m
-        
-  steemit-amqp:
-    restart: always
-    image: marcelmaatkamp/steemit-amqp
-    environment:
-     - RABBITMQ_HOSTNAME=rabbitmq
-     - RABBITMQ_EXCHANGE=steemit.api
-    volumes:
-     - ./credentials.py:/app/mycredentials.py
-    logging:
-      options:
-        max-size: 50m
-        
-volumes:
- neo4j-data:
- neo4j-logs:
- rabbitmq:
-```
+ * Installation
+ * Documentation on how/to ingest and display data
+ * Added urls for external resources and
+ * Screenshots added showing patterns in the data ( and thus mission v1.0 accomplished!) 
 
-Start project with:
+The code so far: 
+
+ * is a fully working version 
+ * has examples in src/scratchbook
+ * contains unit and integration tests and queries in src/test/java
+ * contains a dockerfile and has 
+ * docker-compose file added to bootstrap the project
+
+Once the ingest is running Neo4j can be queried to find patterns in the data:
+![graph_version_1.0.png](https://res.cloudinary.com/hpiynhbhq/image/upload/v1515327395/aww7yainsoqt0rhu79cf.png)
+
+Plans to enhance this project could be:
+
+ * To make the data accessible and interactive via a web-interface 
+ * Generate a docker container with this project and  
+ * Instantiate a working version on a platform like "Heroku".
+
+Its a pity Steem does not let a author include interactive elements in its posts.
+
+# Prerequisites
+
+To run this project the system needs the following locally installed:
+
+ * A recent version of java,
+ * A recent version of gradle and have
+ * Docker and docker-compose
+
+# Installation
+
+## Start the services
+
+Clone the project in a folder and start the proxy, rabbitmq and neo4j services:
 
 ```
-$ docker-compose up -d socks-proxy rabbitmq neo4j
+$ git clone https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit.git &&\
+   cd java-spring-boot-example-neo4j-steemit &&\ 
+   docker-compose up -d socks-proxy rabbitmq neo4j
 ```
+## Generate data
 
-### Proxy 
-
-```
-socks5://localhost:9050
-```
-
-### RabbitMQ
+Connect to api.steem.com via https://github.com/pibara/steempersist and push the stream into RabbitMQ via docker:
 
 ```
-http://rabbitmq:15672
+$ docker-compose up steemit-amqp
 ```
 
-### Neo4j
+## Ingest data into Neo4j
 
-http://neo4j:7474/browser/
+To start the project run the following command to start Spring boot and the consumer which will put the data from RabbitMQ into Neo4j database:
+
+```
+$ gradle bootRun
+```
+
+## Proxy
+
+Set your browser proxy settings to connect to the services rabbitmq and neo4j via the following url:
+
+```
+socks5://localhost:9050`
+```
+
+## RabbitMQ
+
+Once the proxy is installed goto http://rabbitmq:15672 and login with username `guest` and password `guest`. The created exchange is `steemit.api` and the queue is `steemit.api.votes`.
+
+## Neo4j
+
+Once the proxy is installed goto http://neo4j:7474 and query the database and generate beautiful screenshots :)
+
+# Issues
+
+Have fun and please contribute or report issue's in Github on
+https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit
+
+<br /><hr/><em>Posted on <a href="https://utopian.io/utopian-io/@marcelmaatkamp/first-release-of-marcelmaatkamp-java-spring-boot-example-neo4j-steemit">Utopian.io -  Rewarding Open Source Contributors</a></em><hr/>
+
 
 ## Display relationship data
 
