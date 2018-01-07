@@ -29,6 +29,7 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @SpringBootApplication
@@ -79,23 +80,33 @@ public class Application implements ApplicationRunner {
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
 
         // Lets insert into Neo4j
-        Author author = authorRepository.findByName(extendedAuthorAccount.getName().getName());
-        if (author == null) {
-            author = new Author(extendedAuthorAccount.getName().getName());
-        }
-        Voter voter = voterRepository.findByName(extendedVoterAccount.getName().getName());
-        if (voter == null) {
-            voter = new Voter(extendedVoterAccount.getName().getName());
-        }
         Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
         if (permlink == null) {
             permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
         }
+
+        Author author = authorRepository.findByName(extendedAuthorAccount.getName().getName());
+        if (author == null) {
+            author = new Author(extendedAuthorAccount.getName().getName());
+            if (author.posts == null) {
+                author.posts = new HashSet<>();
+            }
+            author.posts.add(permlink);
+            author = authorRepository.save(author);
+        }
+        Voter voter = voterRepository.findByName(extendedVoterAccount.getName().getName());
+        if (voter == null) {
+            voter = new Voter(extendedVoterAccount.getName().getName());
+            voter = voterRepository.save(voter);
+        }
+
         Vote voteByBVoter = new Vote();
         voteByBVoter.permlink = permlink;
         voteByBVoter.voter = voter;
         voteByBVoter.weight = vote.weight;
         voteRepository.save(voteByBVoter);
+
+
     }
 
     @Override

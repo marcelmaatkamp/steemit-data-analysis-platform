@@ -21,9 +21,6 @@ public class ConversionScratch {
     SteemJ steemJ;
 
     @Autowired
-    application.repository.json.VoteRepository voteRepository;
-
-    @Autowired
     ExtendedAccountRepository extendedAccountRepository;
 
     @Autowired

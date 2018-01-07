@@ -1,9 +1,9 @@
 package application.repository.database;
 
 import application.model.database.Vote;
-import application.model.steemj.ExtendedAccount;
+import application.model.database.Voter;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface VoteRepository extends GraphRepository<Vote> {
-    application.model.json.Vote findByVoter(ExtendedAccount voter);
+    Vote findByVoter(Voter voter);
 }

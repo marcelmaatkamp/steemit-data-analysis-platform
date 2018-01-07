@@ -6,9 +6,10 @@ import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 public class Permlink {
-    public String link;
     @GraphId
     Long id;
+
+    public String link;
 
     public Permlink() {
     }
