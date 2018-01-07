@@ -48,13 +48,27 @@ VSCode launch.json
 }
 ```
 
-# Neo4J
+# Services
+
+Projects needs:
+ * rabbitmq
+ * neo4j
 
 ## docker-compose
 
 ```
 version: '2'
 services:
+
+  socks-proxy:
+    # https://github.com/weaveworks/build-tools/blob/master/socks/Dockerfile 
+    image: weaveworks/socksproxy
+    restart: always
+    ports:
+      - 127.0.0.1:9050:8000
+    logging:
+      options:
+        max-size: 50m
 
   rabbitmq:
     image: marcelmaatkamp/rabbitmq-mqtt-ldap
@@ -96,8 +110,27 @@ volumes:
  neo4j-data:
  neo4j-logs:
  rabbitmq:
- 
 ```
+
+Start project with:
+
+```
+$ docker-compose up -d socks-proxy rabbitmq neo4j
+```
+
+### Proxy 
+
+```
+socks5://localhost:9050
+```
+
+### RabbitMQ
+
+```
+http://rabbitmq:15672
+```
+
+### Neo4j
 
 http://neo4j:7474/browser/
 
