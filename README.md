@@ -6,7 +6,7 @@ Ingest steemit data into neo4j
   * https://neo4j.com/docs/ogm-manual/current/reference/
   * https://github.com/marvin-we/steem-java-api-wrapper/blob/master/sample/src/main/java/my/sample/project/SteemJUsageExample.java
 
-![image](https://raw.githubusercontent.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/master/documentation/images/graph_version_1.png)
+![image](https://raw.githubusercontent.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/master/documentation/images/graph_version_2.png)
 
 # Compile, test and Run
 
