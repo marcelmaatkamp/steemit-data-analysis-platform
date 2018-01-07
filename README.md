@@ -1,6 +1,8 @@
 # Neo4j Steemit Ingest
 
-Ingest steemit data into neo4j
+Ingest steemit data into neo4j.
+
+First project: Detect and display the relations between authors of posts and voters on posts.
 
 # Documentation
   * https://neo4j.com/docs/ogm-manual/current/reference/
