@@ -7,6 +7,7 @@ I hereby release the first version of my project where I ingest Steem data in JS
 Once the ingest is running Neo4j can be queried to find patterns in the data:
 
 ![graph_version_1.0.png](https://github.com/marcelmaatkamp/java-spring-boot-example-neo4j-steemit/blob/master/documentation/images/graph_version_1.0.png?raw=true)
+(The ***green*** nodes are "Authors", ***red*** nodes are "Voters" and ***grey*** nodes are "posts") 
 
 I do all this in my spare time so I hope that I can find some time to add more domain objects and make more sense of the data produced by the Steemit platform.
 
