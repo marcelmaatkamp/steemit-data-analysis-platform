@@ -1,6 +1,6 @@
 # Release v1.0
 
-https://github.com/marcelmaatkamp/steemit-neo4j-data-analysis-platform/releases/tag/1.0
+https://github.com/marcelmaatkamp/steemit-data-analysis-platform/releases/tag/1.0
 
 I hereby release the first version of my project where I ingest Steem data in JSON format, put it in RabbitMQ via and ingest the data via java Spring Boot into Neo4j where I can query the data to find interesting patterns. I focussed for the first version on the votes coming from Steem to analyse who is voting on what and made a screenshot available to show the first results of what I found in the data. 
 
