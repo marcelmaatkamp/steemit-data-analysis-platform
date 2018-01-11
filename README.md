@@ -37,9 +37,14 @@ Its a pity Steem does not let a author include interactive elements in its posts
 
 To run this project the system needs the following locally installed:
 
- * A recent version of java,
- * A recent version of gradle and have
  * Docker and docker-compose
+ 
+ # Installation
+ 
+ ```
+ $ docker-compose up -d socksproxy rabbitmq neo4j
+ $ steemit_account_name=<STEEM_USERNAME> steemit_account_key_active=<STEEM_ACTIVE_KEY> steemit_friends= docker-compose up steemit-live-data 
+ ```
 
 # Documentation
   * https://neo4j.com/docs/ogm-manual/current/reference/
