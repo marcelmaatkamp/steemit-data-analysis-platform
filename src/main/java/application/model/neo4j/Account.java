@@ -1,4 +1,4 @@
-package application.model.database;
+package application.model.neo4j;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.neo4j.ogm.annotation.GraphId;

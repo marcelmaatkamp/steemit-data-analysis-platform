@@ -1,7 +1,7 @@
 package application.utils.scratch;
 
-import application.repository.database.PermlinkRepository;
-import application.repository.database.VoteRepository;
+import application.repository.neo4j.PermlinkRepository;
+import application.repository.neo4j.VoteRepository;
 import application.repository.steemj.DiscussionRepository;
 import application.repository.steemj.ExtendedAccountRepository;
 import application.repository.steemj.VoteStateRepository;

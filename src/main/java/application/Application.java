@@ -1,13 +1,14 @@
 package application;
 
-import application.model.database.Author;
-import application.model.database.Permlink;
-import application.model.database.Vote;
-import application.model.database.Voter;
-import application.repository.database.AuthorRepository;
-import application.repository.database.PermlinkRepository;
-import application.repository.database.VoteRepository;
-import application.repository.database.VoterRepository;
+import application.model.neo4j.Author;
+import application.model.neo4j.Permlink;
+import application.model.neo4j.Vote;
+import application.model.neo4j.Voter;
+import application.repository.neo4j.AuthorRepository;
+import application.repository.neo4j.PermlinkRepository;
+import application.repository.neo4j.VoteRepository;
+import application.repository.neo4j.VoterRepository;
+import application.service.Bootstrap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
@@ -21,6 +22,7 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -54,6 +56,12 @@ public class Application implements ApplicationRunner {
 
     @Autowired
     SteemJ steemJ;
+
+    @Value("${application.bootstrap.votes}")
+    Boolean bootstrapVotes;
+
+    @Value("${application.bootstrap.votes.timeframe}")
+    int bootstrapDays;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
@@ -109,11 +117,18 @@ public class Application implements ApplicationRunner {
 
     }
 
+    @Autowired
+    Bootstrap bootstrap;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info(("HF version fetched: " + steemJ.getHardforkVersion()));
         log.info("Market ticker: " + steemJ.getTicker().toString());
         log.info("block: " + steemJ.getBlock(1));
+
+        if(bootstrapVotes) {
+            bootstrap.votes(bootstrapDays);
+        }
     }
 
 }
