@@ -1,16 +1,25 @@
 version: '2'
 services:
 
+  socksproxy:
+    image: weaveworks/socksproxy
+    restart: always
+    ports:
+      - 127.0.0.1:9050:8000
+    logging:
+      options:
+        max-size: 50m
+
   rabbitmq:
     image: marcelmaatkamp/rabbitmq-mqtt-ldap
     restart: always
     hostname: rabbitmq
     environment:
       RABBITMQ_NODENAME: rabbitmq@rabbitmq
+    ports:
+      - 5672:5672
     volumes:
       - rabbitmq:/var/lib/rabbitmq/mnesia
-      - ./etc/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
-      - nodepki-certs-rabbitmq:/certs/rabbitmq
     logging:
       options:
         max-size: 50m
@@ -21,26 +30,34 @@ services:
     volumes:
      - neo4j-data:/data
      - neo4j-logs:/logs
+    environment:
+     - NEO4J_AUTH=none
     logging:
       options:
         max-size: 50m
         
-  steemit-amqp:
+  steemit-live-data:
     restart: always
-    image: marcelmaatkamp/steemit-amqp
+    image: marcelmaatkamp/steemit-amqp:latest
     environment:
      - RABBITMQ_HOSTNAME=rabbitmq
      - RABBITMQ_EXCHANGE=steemit.api
+     - STEEMIT_ACCOUNT_NAME=${steemit_account_name}
+     - STEEMIT_ACCOUNT_ACTIVE_KEY=${steemit_account_key_active}
     volumes:
      - ./credentials.py:/app/mycredentials.py
+    extra_hosts:
+     - "steemd.steemit.com:52.201.99.232"
     logging:
       options:
         max-size: 50m
       
-  steemit-amqp-neo4j:
+  steemit-database:
     image: marcelmaatkamp/steemit-data-analysis-platform:1.1
+    build: .
+    command: "/home/gradle/build/install/gradle/bin/gradle"
     environment:
-     - logging.level.org=info
+     - logging.level.org=debug
 
      - spring.rabbitmq.host=rabbitmq
      - spring.rabbitmq.port=5672
@@ -52,10 +69,14 @@ services:
      - spring.data.neo4j.password=spring-boot-neo4j
      - spring.data.neo4j.repositories.enabled=true
 
-     - steemit.account.name=${steemit_account_name}
+     - steemit.account.name=docprop
      - steemit.account.key.post=${steemit_account_key_post}
      - steemit.account.key.active=${steemit_account_key_active}
-     
+  
+    volumes:
+     - steemit-database-gradle:/home/gradle/.gradle
+     # - steemit-database-gradle:/home/gradle/build
+
     logging:
       options:
         max-size: 50m
@@ -64,3 +85,4 @@ volumes:
  neo4j-data:
  neo4j-logs:
  rabbitmq:
+ steemit-database-gradle:
