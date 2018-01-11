@@ -4,4 +4,4 @@ COPY \
 COPY \
  src ./src
 RUN gradle installDist
-ENTRYPOINT ["/home/gradle/build/install/gradle/bin/gradle"]
+CMD ["/home/gradle/build/install/gradle/bin/gradle"]

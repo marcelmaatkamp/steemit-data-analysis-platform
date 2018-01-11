@@ -10,7 +10,10 @@ import eu.bittrade.libs.steemj.exceptions.SteemCommunicationException;
 import eu.bittrade.libs.steemj.exceptions.SteemResponseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,15 +22,16 @@ import java.util.List;
 
 @Configuration
 @Slf4j
-public class SteemitConfiguration { 
+public class SteemitConfiguration {
+
 
     @Value("${steemit.account.name}")
     String accountName;
 
-    @Value("${steemit.account.key.post}")
+    @Value("${steemit.account.postkey}")
     String postKey;
 
-    @Value("${steemit.account.key.active}")
+    @Value("${steemit.account.activekey}")
     String activeKey;
 
     @Bean

@@ -37,13 +37,26 @@ Its a pity Steem does not let a author include interactive elements in its posts
 
 To run this project the system needs the following locally installed:
 
- * Docker and docker-compose
+ * docker and docker-compose
  
  # Installation
  
  ```
+ $ # Start proxy rabbitmq and neo4j services
  $ docker-compose up -d socksproxy rabbitmq neo4j
- $ steemit_account_name=<STEEM_USERNAME> steemit_account_key_active=<STEEM_ACTIVE_KEY> steemit_friends= docker-compose up steemit-live-data 
+
+ $ # Start the live data stream from steemit into rabbitmq
+ $ RABBITMQ_HOSTNAME=rabbitmq \
+    RABBITMQ_EXCHANGE=steemit.api \
+     STEEMIT_ACCOUNT_NAME=<OUR_STEEMIT_NAME> \
+      STEEMIT_ACCOUNT_ACTIVE_KEY=<YOUR_STEEMIT_ACTIVE_KEY> \
+       docker-compose up steemit-live-data
+
+ $ # Ingest data from rabbitmq into neo4j
+ $  steemit_account_name=<STEEM_USERNAME> \
+     steemit_account_postkey=<STEEM_POSTKEY> \
+      steemit_account_activekey=STEEM_ACTIVEKEY> \
+       docker-compose up --build steemit-database
  ```
 
 # Documentation

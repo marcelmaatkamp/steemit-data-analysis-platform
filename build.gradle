@@ -31,18 +31,11 @@ allprojects {
     // HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:8080/health || exit 1
 
     docker {
-        project.group = "nexus:5000/example"
+        project.group = "marcelmaatkamp"
         url = "unix:///var/run/docker.sock"
         javaApplication {
             baseImage = 'anapsix/alpine-java:jre8'
             maintainer = 'Marcel Maatkamp <m.maatkamp@gmail.com>'
-            ports = [5005, 8080]
-            registryCredentials {
-                url = 'https://nexus:5000'
-                username = 'admin'
-                password = 'admin123'
-                email = 'm.maatkamp@gmail.com'
-            }
         }
     }
 

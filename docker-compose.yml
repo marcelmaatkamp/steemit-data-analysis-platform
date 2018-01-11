@@ -43,7 +43,7 @@ services:
      - RABBITMQ_HOSTNAME=rabbitmq
      - RABBITMQ_EXCHANGE=steemit.api
      - STEEMIT_ACCOUNT_NAME=${steemit_account_name}
-     - STEEMIT_ACCOUNT_ACTIVE_KEY=${steemit_account_key_active}
+     - STEEMIT_ACCOUNT_ACTIVE_KEY=${steemit_account_activekey}
     volumes:
      - ./credentials.py:/app/mycredentials.py
     extra_hosts:
@@ -55,27 +55,25 @@ services:
   steemit-database:
     image: marcelmaatkamp/steemit-data-analysis-platform:1.1
     build: .
-    command: "/home/gradle/build/install/gradle/bin/gradle"
     environment:
      - logging.level.org=debug
 
-     - spring.rabbitmq.host=rabbitmq
-     - spring.rabbitmq.port=5672
-     - spring.rabbitmq.username=consumer-steemit-neo4j
-     - spring.rabbitmq.password=consumer-steemit-neo4j
+     - spring_rabbitmq_host=rabbitmq
+     - spring_rabbitmq_port=5672
+     - spring_rabbitmq_username=consumer-steemit-neo4j
+     - spring_rabbitmq_password=consumer-steemit-neo4j
 
-     - spring.data.neo4j.uri=bolt://neo4j
-     - spring.data.neo4j.username=neo4j
-     - spring.data.neo4j.password=spring-boot-neo4j
-     - spring.data.neo4j.repositories.enabled=true
+     - spring_data_neo4j_uri=bolt://neo4j
+     - spring_data_neo4j_username=neo4j
+     - spring_data_neo4j_password=spring-boot-neo4j
+     - spring_data_neo4j_repositories_enabled=true
 
-     - steemit.account.name=docprop
-     - steemit.account.key.post=${steemit_account_key_post}
-     - steemit.account.key.active=${steemit_account_key_active}
-  
+     - steemit_account_name=${steemit_account_name}
+     - steemit_account_postkey=${steemit_account_postkey}
+     - steemit_account_activekey=${steemit_account_activekey}
+
     volumes:
      - steemit-database-gradle:/home/gradle/.gradle
-     # - steemit-database-gradle:/home/gradle/build
 
     logging:
       options:
