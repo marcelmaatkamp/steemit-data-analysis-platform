@@ -1,6 +1,6 @@
-package application.repository.database;
+package application.repository.neo4j;
 
-import application.model.database.Permlink;
+import application.model.neo4j.Permlink;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface PermlinkRepository extends GraphRepository<Permlink> {

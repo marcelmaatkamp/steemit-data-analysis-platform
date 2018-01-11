@@ -1,6 +1,6 @@
-package application.repository.database;
+package application.repository.neo4j;
 
-import application.model.database.Voter;
+import application.model.neo4j.Voter;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface VoterRepository extends GraphRepository<Voter> {
