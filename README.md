@@ -41,6 +41,8 @@ To run this project the system needs the following locally installed:
  
  # Installation
  
+ Start the whole stack with these 3 statements:
+ 
  ```
  $ # Start proxy rabbitmq and neo4j services
  $ docker-compose up -d socksproxy rabbitmq neo4j
