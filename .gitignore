@@ -33,3 +33,4 @@ images/
 .sts4-cache/
 .env
 .vscode/launch.json
+node_modules
