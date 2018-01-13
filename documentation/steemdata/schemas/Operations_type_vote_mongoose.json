@@ -1,0 +1,29 @@
+{
+  "_id": {
+    "type": "String"
+  },
+  "voter": {
+    "type": "String"
+  },
+  "author": {
+    "type": "String"
+  },
+  "permlink": {
+    "type": "String"
+  },
+  "weight": {
+    "type": "Number"
+  },
+  "type": {
+    "type": "String"
+  },
+  "timestamp": {
+    "type": "Date"
+  },
+  "block_num": {
+    "type": "Number"
+  },
+  "trx_id": {
+    "type": "String"
+  }
+}

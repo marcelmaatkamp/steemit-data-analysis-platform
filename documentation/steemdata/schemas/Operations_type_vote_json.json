@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "voter": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "permlink": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "type": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "block_num": {
+      "type": "number"
+    },
+    "trx_id": {
+      "type": "string"
+    }
+  }
+}

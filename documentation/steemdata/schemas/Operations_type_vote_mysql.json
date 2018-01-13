@@ -1,0 +1,1 @@
+"CREATE TABLE generic (\n  _id TEXT,\n  voter TEXT,\n  author TEXT,\n  permlink TEXT,\n  weight INT,\n  type TEXT,\n  timestamp TIMESTAMP,\n  block_num INT,\n  trx_id TEXT,\n  PRIMARY KEY (trx_id)\n);"
