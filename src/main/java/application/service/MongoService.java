@@ -22,20 +22,7 @@ public class MongoService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    enum SteemDataCollections {
-        ACCOUNTOPERATIONS("ACCOUNTOPERATIONS"),
-        ACCOUNTS("ACCOUNTS");
-
-        String collection;
-        SteemDataCollections(String collection) {
-            this.collection  = collection;
-        }
-        String getCollection() {
-            return collection;
-        }
-    }
-
-    public List<Vote> getVotes(Calendar start, Calendar end) {
+    public List<Vote> getVotesBetween(Calendar start, Calendar end) {
         List<Vote> votes =
                 mongoTemplate.find(query(
                         where("type").is("vote").

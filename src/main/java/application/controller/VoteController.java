@@ -19,13 +19,11 @@ public class VoteController {
 
     private static final String template = "Hello, %s!";
 
-    @RequestMapping("/api/vote/all")
+    @RequestMapping("/api/vote/today")
     public List<application.model.mongodb.AccountOperations.Vote> greeting(@RequestParam(value="name", defaultValue="World") String name) {
         Calendar now = GregorianCalendar.getInstance();
         Calendar yesterday = GregorianCalendar.getInstance();
-
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-        return mongoService.getVotes(yesterday,now);
+        return mongoService.getVotesBetween(yesterday,now);
     }
 }
