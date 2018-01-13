@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class Bootstrap {
         Period period = new Period(start, end);
         DateTime calc = start.plus(period);
 
-        List<Vote> votes = mongoService.getVotes(calc.toGregorianCalendar());
+        List<Vote> votes = new ArrayList<>(); // mongoService.getVotes(calc.toGregorianCalendar());
         for(Vote vote: votes) {
             application.model.neo4j.Vote voteNeo4j = new application.model.neo4j.Vote();
             BeanUtils.copyProperties(vote, voteNeo4j);

@@ -21,9 +21,11 @@ public class VoteController {
 
     @RequestMapping("/api/vote/all")
     public List<application.model.mongodb.AccountOperations.Vote> greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Calendar now = GregorianCalendar.getInstance();
+        Calendar yesterday = GregorianCalendar.getInstance();
 
-        return mongoService.getVotes(calendar);
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+        return mongoService.getVotes(yesterday,now);
     }
 }

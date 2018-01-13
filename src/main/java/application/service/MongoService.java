@@ -3,6 +3,7 @@ package application.service;
 import application.model.mongodb.AccountOperations.Vote;
 import com.mongodb.Mongo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,15 @@ public class MongoService {
         }
     }
 
-    public List<Vote> getVotes(Calendar calendar) {
-        List<Vote> votes = mongoTemplate.find(query(where("type").is("vote").and("timestamp").gte(calendar)), Vote.class);
+    public List<Vote> getVotes(Calendar start, Calendar end) {
+        List<Vote> votes =
+                mongoTemplate.find(query(
+                        where("type").is("vote").
+                        and("timestamp").
+                                gte(start.getTime()).
+                                lt(end.getTime())).
+                        with(new Sort("timestamp", "-1")).
+                        limit(10), Vote.class);
         return votes;
     }
 }
