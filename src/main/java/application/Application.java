@@ -69,7 +69,7 @@ public class Application implements ApplicationRunner {
 
     @RabbitListener(bindings =
         @QueueBinding(
-            exchange = @Exchange(value = "${steemit.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "true"),
+            exchange = @Exchange(value = "${steemit.rabbitmq.exchange}", type = ExchangeTypes.TOPIC, durable = "false"),
             value = @Queue(value = "${steemit.rabbitmq.queue.votes}", durable = "true"),
             key = "steemit.vote"
         )

@@ -80,13 +80,14 @@ allprojects {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-amqp:1.5.9.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-actuator:1.5.9.RELEASE"
-    compile "org.springframework.boot:spring-boot-devtools:1.5.9.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-data-neo4j:1.5.9.RELEASE"
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "org.springframework.boot:spring-boot-starter-amqp"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-data-neo4j"
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+    compile "org.springframework.boot:spring-boot-starter-web"
 
-    testCompile "org.springframework.boot:spring-boot-starter-test:1.5.9.RELEASE"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "junit:junit:4.12"
 
     compile "biz.paluch.logging:logstash-gelf:1.11.1"
