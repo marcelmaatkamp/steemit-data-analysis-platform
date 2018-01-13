@@ -11,7 +11,7 @@ set_shared_steemd_instance(custom_instance)
 s = Steem(nodes)
 w = s.wallet
 
-file = open("k_total_no_bittrex", "r") 
+file = open("k", "r") 
 for line in file: 
  account_values = line.split(",")
  account = account_values[1].strip()
