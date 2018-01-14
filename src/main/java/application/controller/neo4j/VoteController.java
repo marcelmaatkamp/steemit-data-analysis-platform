@@ -1,26 +1,27 @@
 package application.controller.neo4j;
 
 import application.model.neo4j.Vote;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import application.repository.neo4j.VoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/votes")
+@RestController
+@RequestMapping("/api/vote")
 public class VoteController {
 
+    @Autowired
+    VoteRepository voteRepository;
+
     @RequestMapping("/{id}")
-    String showUserForm(@PathVariable("id") Vote vote, Model model) {
-        model.addAttribute("vote", vote);
-        return "userForm";
+    Vote showUserForm(@PathVariable("id") Vote vote) {
+        return vote;
     }
 
     @RequestMapping("/all")
-    ModelAndView showAll(Vote vote, ModelAndView modelAndView) {
-        modelAndView.addObject("vote", vote);
-        return modelAndView;
+    Iterable<Vote> showAll() {
+        return voteRepository.findAll();
     }
 
 }
