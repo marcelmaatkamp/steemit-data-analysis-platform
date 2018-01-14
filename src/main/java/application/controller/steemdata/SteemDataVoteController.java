@@ -1,4 +1,4 @@
-package application.controller;
+package application.controller.steemdata;
 
 import application.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;

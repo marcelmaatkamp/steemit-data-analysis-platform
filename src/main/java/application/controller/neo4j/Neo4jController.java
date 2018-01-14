@@ -1,4 +1,4 @@
-package application.controller;
+package application.controller.neo4j;
 
 import application.model.mongodb.AccountOperations.Vote;
 import application.repository.neo4j.VoteRepository;

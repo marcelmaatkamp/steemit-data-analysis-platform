@@ -1,4 +1,4 @@
-package application.controller;
+package application.controller.neo4j;
 
 import application.model.neo4j.Vote;
 import org.springframework.stereotype.Controller;
