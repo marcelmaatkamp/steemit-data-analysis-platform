@@ -86,6 +86,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-neo4j"
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
     compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "junit:junit:4.12"

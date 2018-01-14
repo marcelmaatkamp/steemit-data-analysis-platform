@@ -10,10 +10,7 @@ import eu.bittrade.libs.steemj.exceptions.SteemCommunicationException;
 import eu.bittrade.libs.steemj.exceptions.SteemResponseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -69,6 +66,11 @@ public class SteemitConfiguration {
     SteemJ steemj() throws SteemCommunicationException, SteemResponseException { 
         SteemJ steemJ = new SteemJ();
         steemJ.setBlockAppliedCallback(blockAppliedCallback());
+
+        log.info(("HF version fetched: " + steemJ.getHardforkVersion()));
+        log.info("Market ticker: " + steemJ.getTicker().toString());
+        log.info("block: " + steemJ.getBlock(1));
+
         return steemJ;
     }
 }
