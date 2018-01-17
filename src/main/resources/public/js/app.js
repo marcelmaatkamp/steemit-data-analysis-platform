@@ -25,9 +25,13 @@
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2));
 
-    d3.json("json/graph.json", function (error, graph) {
+// http://localhost:8080/api/vote/all
+
+    d3.json("api/vote/all", function (error, graph) {
         if (error) throw error;
-        update(graph.links, graph.nodes);
+          console.log(graph[0]);
+
+        update(graph.nodes);
     })
 
     function update(links, nodes) {

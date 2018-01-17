@@ -1,11 +1,11 @@
 {
-    "_id" : "6752671b1a3459f1c220400bc7f219179ef7db75",
-    "voter" : "steemit78",
-    "author" : "steemit",
-    "permlink" : "firstpost",
-    "weight" : 10000,
-    "type" : "vote",
-    "timestamp" : "2016-03-30T20:13:00.000Z",
-    "block_num" : 176493,
-    "trx_id" : "766e4e99679833f6a0e2020973ef5ca3048cfa70"
+  "_id": "6752671b1a3459f1c220400bc7f219179ef7db75",
+  "voter": "steemit78",
+  "author": "steemit",
+  "permlink": "firstpost",
+  "weight": 10000,
+  "type": "vote",
+  "timestamp": "2016-03-30T20:13:00.000Z",
+  "block_num": 176493,
+  "trx_id": "766e4e99679833f6a0e2020973ef5ca3048cfa70"
 }

@@ -47,27 +47,26 @@ public class Bootstrap {
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
 
         // Lets insert into Neo4j
-        Permlink permlink = permlinkRepository.findByLink(vote.getPermlink());
-        if (permlink == null) {
-            permlink = permlinkRepository.save(new Permlink(vote.getPermlink()));
-        }
 
         Account author = accountRepository.findByName(extendedAuthorAccount.getName().getName());
         if (author == null) {
             author = new Account(extendedAuthorAccount.getName().getName());
-            author.posts.add(permlink);
-            author = accountRepository.save(author);
         }
+        Permlink permlink = permlinkRepository.findByLink(vote.getPermlink());
+        if (permlink == null) {
+            permlink = permlinkRepository.save(new Permlink(vote.getPermlink(), author));// author, vote.getPermlink()));
+        }
+        author.posts.add(permlink);
+
+        author = accountRepository.save(author);
+
         Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());
         if (voter == null) {
             voter = new Account(extendedVoterAccount.getName().getName());
             voter = accountRepository.save(voter);
         }
 
-        application.model.neo4j.Vote voteByBVoter = new application.model.neo4j.Vote();
-        voteByBVoter.permlink = permlink;
-        voteByBVoter.voter = voter;
-        voteByBVoter.weight = vote.getWeight();
+        application.model.neo4j.Vote voteByBVoter = new application.model.neo4j.Vote(voter, permlink, vote.getWeight());
         voteRepository.save(voteByBVoter);
     }
 
@@ -77,7 +76,7 @@ public class Bootstrap {
         LocalDateTime beforeDays = now.minus(days, ChronoUnit.DAYS);
         List<Vote> votes = mongoService.getVotesBetween(beforeDays, now);
 
-        for(Vote vote: votes) {
+        for (Vote vote : votes) {
             save(vote);
         }
 

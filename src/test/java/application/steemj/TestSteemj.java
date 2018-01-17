@@ -1,13 +1,5 @@
 package application.steemj;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import application.Application;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
@@ -17,9 +9,16 @@ import eu.bittrade.libs.steemj.exceptions.SteemCommunicationException;
 import eu.bittrade.libs.steemj.exceptions.SteemInvalidTransactionException;
 import eu.bittrade.libs.steemj.exceptions.SteemResponseException;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { Application.class })
+@SpringBootTest(classes = {Application.class})
 @Slf4j
 public class TestSteemj {
 
@@ -34,7 +33,7 @@ public class TestSteemj {
         try {
             // https://steemit.com/test/@steemj/testofsteemj040
             commentOperation = steemJ.createComment(new AccountName("steemj"), new Permlink("testofsteemj040"),
-                    "Example comment without no link but with a @user .", new String[] { "test" });
+                    "Example comment without no link but with a @user .", new String[]{"test"});
             assertEquals("testofsteemj040", commentOperation.getParentPermlink().getLink());
             steemJ.deletePostOrComment(commentOperation.getPermlink());
         } catch (SteemCommunicationException e) {

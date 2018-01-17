@@ -12,22 +12,22 @@ import java.util.List;
 
 @NodeEntity
 public class ExtendedAccount extends Account {
-     // public Asset vestingBalance;
-     public long reputation;
-     // public Map<BigInteger, AppliedOperation> transferHistory;
-     // public Map<BigInteger, AppliedOperation> marketHistory;
-     // public Map<BigInteger, AppliedOperation> postHistory;
-     // public Map<BigInteger, AppliedOperation> voteHistory;
-     // public Map<BigInteger, AppliedOperation> otherHistory;
-     public List<AccountName> witnessVotes;
-     public List<Pair<String, Long>> tagsUsage;
-     public List<Pair<AccountName, Long>> guestBloggers;
-     public List<String> openOrders;
-     public List<String> comments;
-     public List<String> blog;
-     public List<String> feed;
-     public List<String> recentReplies;
-     public List<String> recommended;
+    // public Asset vestingBalance;
+    public long reputation;
+    // public Map<BigInteger, AppliedOperation> transferHistory;
+    // public Map<BigInteger, AppliedOperation> marketHistory;
+    // public Map<BigInteger, AppliedOperation> postHistory;
+    // public Map<BigInteger, AppliedOperation> voteHistory;
+    // public Map<BigInteger, AppliedOperation> otherHistory;
+    public List<AccountName> witnessVotes;
+    public List<Pair<String, Long>> tagsUsage;
+    public List<Pair<AccountName, Long>> guestBloggers;
+    public List<String> openOrders;
+    public List<String> comments;
+    public List<String> blog;
+    public List<String> feed;
+    public List<String> recentReplies;
+    public List<String> recommended;
     @GraphId
     Long id;
 
@@ -122,5 +122,5 @@ public class ExtendedAccount extends Account {
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-    
+
 }

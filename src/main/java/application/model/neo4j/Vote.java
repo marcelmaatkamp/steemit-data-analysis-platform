@@ -1,58 +1,29 @@
 package application.model.neo4j;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.neo4j.ogm.annotation.*;
 
 @RelationshipEntity(type = "VOTE")
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Vote {
 
+    @NonNull
     @StartNode
     public Account voter;
+
+    @NonNull
     @EndNode
     public Permlink permlink;
+
+    @NonNull
     @Property
     public int weight;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @GraphId
     Long id;
-
-    public Vote() {
-    }
-
-    public Account getVoter() {
-        return voter;
-    }
-
-    public void setVoter(Account voter) {
-        this.voter = voter;
-    }
-
-    public Permlink getPermlink() {
-        return permlink;
-    }
-
-    public void setPermlink(Permlink permlink) {
-        this.permlink = permlink;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
-    }
-
 }
