@@ -5,14 +5,25 @@ import org.neo4j.ogm.annotation.*;
 
 @RelationshipEntity(type = "VOTE")
 public class Vote {
+
     @StartNode
     public Account voter;
     @EndNode
     public Permlink permlink;
     @Property
     public int weight;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @GraphId
     Long id;
+
     public Vote() {
     }
 

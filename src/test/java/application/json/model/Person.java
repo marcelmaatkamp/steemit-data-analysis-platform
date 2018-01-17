@@ -1,4 +1,4 @@
-package json.model;
+package application.json.model;
 
 public class Person {
     public Person() { }
