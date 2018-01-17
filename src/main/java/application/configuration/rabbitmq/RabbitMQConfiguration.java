@@ -1,13 +1,11 @@
 package application.configuration.rabbitmq;
 
-import application.model.neo4j.Author;
+import application.model.neo4j.Account;
 import application.model.neo4j.Permlink;
 import application.model.neo4j.Vote;
-import application.model.neo4j.Voter;
-import application.repository.neo4j.AuthorRepository;
+import application.repository.neo4j.AccountRepository;
 import application.repository.neo4j.PermlinkRepository;
 import application.repository.neo4j.VoteRepository;
-import application.repository.neo4j.VoterRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
@@ -37,11 +35,9 @@ public class RabbitMQConfiguration {
     org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory;
 
     @Autowired
-    AuthorRepository authorRepository;
-    @Autowired
-    VoterRepository voterRepository;
-    @Autowired
     PermlinkRepository permlinkRepository;
+    @Autowired
+    AccountRepository accountRepository;
     @Autowired
     VoteRepository voteRepository;
     @Autowired
@@ -89,19 +85,16 @@ public class RabbitMQConfiguration {
             permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
         }
 
-        Author author = authorRepository.findByName(extendedAuthorAccount.getName().getName());
+        Account author = accountRepository.findByName(extendedAuthorAccount.getName().getName());
         if (author == null) {
-            author = new Author(extendedAuthorAccount.getName().getName());
-            if (author.posts == null) {
-                author.posts = new HashSet<>();
-            }
+            author = new Account(extendedAuthorAccount.getName().getName());
             author.posts.add(permlink);
-            author = authorRepository.save(author);
+            author = accountRepository.save(author);
         }
-        Voter voter = voterRepository.findByName(extendedVoterAccount.getName().getName());
+        Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());
         if (voter == null) {
-            voter = new Voter(extendedVoterAccount.getName().getName());
-            voter = voterRepository.save(voter);
+            voter = new Account(extendedVoterAccount.getName().getName());
+            voter = accountRepository.save(voter);
         }
 
         Vote voteByBVoter = new Vote();

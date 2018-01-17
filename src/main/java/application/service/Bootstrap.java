@@ -1,13 +1,11 @@
 package application.service;
 
 import application.model.mongodb.AccountOperations.Vote;
-import application.model.neo4j.Author;
+import application.model.neo4j.Account;
 import application.model.neo4j.Permlink;
-import application.model.neo4j.Voter;
-import application.repository.neo4j.AuthorRepository;
+import application.repository.neo4j.AccountRepository;
 import application.repository.neo4j.PermlinkRepository;
 import application.repository.neo4j.VoteRepository;
-import application.repository.neo4j.VoterRepository;
 import eu.bittrade.libs.steemj.SteemJ;
 import eu.bittrade.libs.steemj.base.models.AccountName;
 import eu.bittrade.libs.steemj.base.models.ExtendedAccount;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,19 +26,16 @@ public class Bootstrap {
     MongoService mongoService;
 
     @Autowired
-    VoteRepository voteRepository;
-
-    @Autowired
     SteemJ steemJ;
 
     @Autowired
     PermlinkRepository permlinkRepository;
 
     @Autowired
-    AuthorRepository authorRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    VoterRepository voterRepository;
+    VoteRepository voteRepository;
 
     private void save(Vote vote) throws SteemCommunicationException, SteemResponseException {
         List<ExtendedAccount> extendedAccounts = steemJ.getAccounts(Arrays.asList(
@@ -58,19 +52,16 @@ public class Bootstrap {
             permlink = permlinkRepository.save(new Permlink(vote.getPermlink()));
         }
 
-        Author author = authorRepository.findByName(extendedAuthorAccount.getName().getName());
+        Account author = accountRepository.findByName(extendedAuthorAccount.getName().getName());
         if (author == null) {
-            author = new Author(extendedAuthorAccount.getName().getName());
-            if (author.posts == null) {
-                author.posts = new HashSet<>();
-            }
+            author = new Account(extendedAuthorAccount.getName().getName());
             author.posts.add(permlink);
-            author = authorRepository.save(author);
+            author = accountRepository.save(author);
         }
-        Voter voter = voterRepository.findByName(extendedVoterAccount.getName().getName());
+        Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());
         if (voter == null) {
-            voter = new Voter(extendedVoterAccount.getName().getName());
-            voter = voterRepository.save(voter);
+            voter = new Account(extendedVoterAccount.getName().getName());
+            voter = accountRepository.save(voter);
         }
 
         application.model.neo4j.Vote voteByBVoter = new application.model.neo4j.Vote();
