@@ -25,6 +25,7 @@ public class Application implements ApplicationRunner {
         log.info(" bootstrap data: ");
         log.info("   - http://localhost:8080/api/bootstrap/votes/last24h ");
         log.info("   - http://localhost:8080/api/bootstrap/votes/3");
+        log.info(" http://localhost:8080/api/steemdata/vote/page?page=0&size=10&sort=timestamp,desc");
     }
 
 }
