@@ -25,5 +25,5 @@ public class Vote {
     public int weight;
 
     @GraphId
-    Long id;
+    public Long id;
 }

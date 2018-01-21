@@ -85,7 +85,7 @@ public class RabbitMQConfiguration {
         }
         Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
         if (permlink == null) {
-            permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink(), author));
+            permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
         }
 
         author.posts.add(permlink);

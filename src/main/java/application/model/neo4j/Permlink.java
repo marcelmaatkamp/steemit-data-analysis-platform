@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 @Data
@@ -20,8 +19,9 @@ public class Permlink {
     @NonNull
     public String link;
 
-
+    /**
     @NonNull
-    @Relationship(type = "AUTHOR", direction = Relationship.OUTGOING)
+     @Relationship(type = "AUTHOR", direction = Relationship.UNDIRECTED)
     public Account author;
+     */
 }
