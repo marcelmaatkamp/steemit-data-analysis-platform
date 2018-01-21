@@ -2,6 +2,7 @@ package application.controller.steemdata;
 
 import application.model.mongodb.AccountOperations.Vote;
 import application.service.MongoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,9 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-@RestController("/api/steemdata/vote")
+@Slf4j
+@RestController()
+@RequestMapping("/api/steemdata/vote")
 public class SteemDataVoteController {
 
     @Autowired
@@ -49,8 +52,9 @@ public class SteemDataVoteController {
         return mongoService.getVotesBetween(dayBeforeYesterday, yesterday);
     }
 
-    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     Page<Vote> list(Pageable pageable) {
+        log.info("pageable: " + pageable);
         return mongoService.listAllByPage(pageable);
     }
 
