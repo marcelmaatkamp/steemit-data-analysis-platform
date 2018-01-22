@@ -89,7 +89,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 
     compile "org.projectlombok:lombok:1.16.18"
-
     compile "com.thoughtworks.xstream:xstream:1.4.10"
     compile "org.apache.commons:commons-lang3:3.7"
     compile "joda-time:joda-time:2.9.9"

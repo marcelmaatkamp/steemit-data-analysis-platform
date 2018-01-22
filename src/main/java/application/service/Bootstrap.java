@@ -63,7 +63,6 @@ public class Bootstrap {
             permlink = permlinkRepository.save(new Permlink(vote.getPermlink()));// author, vote.getPermlink()));
         }
         author.posts.add(permlink);
-
         author = accountRepository.save(author);
 
         Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());

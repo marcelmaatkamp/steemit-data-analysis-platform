@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -110,21 +111,23 @@ public class VoteRepositoryTest {
         assertThat(samePermlink).isNotNull();
         assertThat(samePermlink.getId()).isEqualTo(permlink.getId());
         assertThat(samePermlink.getLink()).isEqualTo(permlink.getLink());
-        author.posts.add(permlink);
-        author = accountRepository.save(author);
-        Account sameAuthor = accountRepository.findOne(author.getId());
-        assertThat(sameAuthor).isNotNull();
-        assertThat(sameAuthor.getId()).isEqualTo(author.getId());
-        assertThat(sameAuthor.getName()).isEqualTo(author.getName());
 
-        Account voter = new Account();
-        voter.setName(VOTER_NAME);
+        vote = voteRepository.save(vote);
 
-        Vote vote = new Vote();
-        vote.permlink = permlink;
-        vote.voter = voter;
-        vote.weight = VOTE_WEIGHT;
-        voter.votes.add(vote);
+        //then
+        assertThat(vote.getId()).isNotEqualTo(-1).isGreaterThan(0);
+
+        Vote sameVote = voteRepository.findOne(vote.getId(),1);
+        log.info(String.format("vote(%d): %s",vote.getId(),sameVote));
+
+        assertThat(sameVote).isNotNull();
+        assertThat(sameVote.voter).isNotNull();
+        assertThat(sameVote.permlink).isNotNull();
+        assertThat(sameVote.getWeight()).isEqualTo(VOTE_WEIGHT);
+        assertThat(sameVote.getVoter().getName()).isEqualTo(VOTER_NAME);
+        assertThat(sameVote.getPermlink().getLink()).isEqualTo(PERMLINK_LINK);
+        assertThat(sameVote.getPermlink().getAuthor().getName()).isEqualTo(AUTHOR_NAME);
+
         voter = accountRepository.save(voter);
         Account sameVoter = accountRepository.findOne(voter.getId());
         assertThat(sameVoter).isNotNull();
