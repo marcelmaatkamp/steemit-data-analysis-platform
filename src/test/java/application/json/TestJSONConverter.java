@@ -15,6 +15,9 @@ import static org.junit.Assert.assertEquals;
 public class TestJSONConverter {
 
     String AUTHOR_NAME = "author";
+    String VOTER_NAME = "voter";
+    int VOTER_WEIGHT = 100;
+    String PERMLINK = "http://permlink";
 
     @Test
     public void testWriteableMethods() {
@@ -48,42 +51,6 @@ public class TestJSONConverter {
         assertEquals("b", b.s);
     }
 
-    public class A {
-        public String s = "a";
-    }
-
-    public class AGetSet {
-        public String s = "a";
-
-        public String getS() {
-            return s;
-        }
-
-        public void setS(String s) {
-            this.s = s;
-        }
-    }
-
-    public class B {
-        public String s = "b";
-    }
-
-    public class BGetSet {
-        public String s = "b";
-
-        public String getS() {
-            return s;
-        }
-
-        public void setS(String s) {
-            this.s = s;
-        }
-    }
-
-    String VOTER_NAME = "voter";
-    int VOTER_WEIGHT = 100;
-    String PERMLINK = "http://permlink";
-
     @Test
     public void testConverter() throws IOException {
         String jsonString = "{\"voter\": \"lauutorrez\", \"author\": \"blavin\", \"permlink\": \"seven-day-black-and-white-challenge-1st-entry\", \"weight\": 1000}";
@@ -116,5 +83,37 @@ public class TestJSONConverter {
         assertEquals(VOTER_NAME, sameVote.voter.name);
         assertEquals(VOTER_WEIGHT, sameVote.weight);
         assertEquals(PERMLINK, sameVote.permlink);
+    }
+
+    public class A {
+        public String s = "a";
+    }
+
+    public class AGetSet {
+        public String s = "a";
+
+        public String getS() {
+            return s;
+        }
+
+        public void setS(String s) {
+            this.s = s;
+        }
+    }
+
+    public class B {
+        public String s = "b";
+    }
+
+    public class BGetSet {
+        public String s = "b";
+
+        public String getS() {
+            return s;
+        }
+
+        public void setS(String s) {
+            this.s = s;
+        }
     }
 }

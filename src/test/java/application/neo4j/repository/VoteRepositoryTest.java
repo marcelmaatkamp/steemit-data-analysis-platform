@@ -4,6 +4,7 @@ import application.model.neo4j.Account;
 import application.model.neo4j.Permlink;
 import application.model.neo4j.Vote;
 import application.repository.neo4j.VoteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@Slf4j
 public class VoteRepositoryTest {
 
-    String AUTHOR_NAME = "marcelmaatkamp";
-    String VOTER_NAME = "r00sj3";
+    String AUTHOR_NAME = "author";
+    String VOTER_NAME = "voter";
     String PERMLINK_LINK = "http://www.nu.nl";
     int VOTE_WEIGHT = 100;
 
@@ -35,31 +36,34 @@ public class VoteRepositoryTest {
 
     @Test
     public void testPersistence() {
+        Account author = new Account(AUTHOR_NAME);
 
-        Permlink permlink = new Permlink();
-        permlink.setLink(PERMLINK_LINK);
-
-        Account author = new Account();
-        author.setName(AUTHOR_NAME);
+        Permlink permlink = new Permlink(author, PERMLINK_LINK);
         author.posts.add(permlink);
 
-        Account voter = new Account();
-        voter.setName(VOTER_NAME);
+        Account voter = new Account(VOTER_NAME);
 
         Vote vote = new Vote();
         vote.permlink = permlink;
         vote.voter = voter;
         vote.weight = VOTE_WEIGHT;
+        voter.votes.add(vote);
 
-        voteRepository.save(vote);
+        vote = voteRepository.save(vote);
 
         //then
-        assertNotNull(vote.getId());
+        assertThat(vote.getId()).isNotEqualTo(-1).isGreaterThan(0);
 
-        Vote sameVote = voteRepository.findById(vote.getId());
-        assertEquals(AUTHOR_NAME, sameVote.getPermlink().getAuthor().getName());
-        assertEquals(VOTER_NAME, sameVote.getVoter().getName());
-        assertEquals(PERMLINK_LINK, sameVote.getPermlink().getLink());
+        Vote sameVote = voteRepository.findOne(vote.getId(),1);
+        log.info(String.format("vote(%d): %s",vote.getId(),sameVote));
+
+        assertThat(sameVote).isNotNull();
+        assertThat(sameVote.voter).isNotNull();
+        assertThat(sameVote.permlink).isNotNull();
+        assertThat(sameVote.getWeight()).isEqualTo(VOTE_WEIGHT);
+        assertThat(sameVote.getVoter().getName()).isEqualTo(VOTER_NAME);
+        assertThat(sameVote.getPermlink().getLink()).isEqualTo(PERMLINK_LINK);
+        assertThat(sameVote.getPermlink().getAuthor().getName()).isEqualTo(AUTHOR_NAME);
     }
 
 }

@@ -32,10 +32,10 @@ public class SteemitConfiguration {
     String activeKey;
 
     @Bean
-    SteemJConfig SteemJConfig() { 
+    SteemJConfig SteemJConfig() {
 
-        log.info("account("+accountName+"), postKey("+postKey+"), activeKey("+activeKey+")");
-        
+        log.info("account(" + accountName + "), postKey(" + postKey + "), activeKey(" + activeKey + ")");
+
         SteemJConfig steemJConfig = SteemJConfig.getInstance();
         steemJConfig.setResponseTimeout(100000);
         steemJConfig.setDefaultAccount(new AccountName(accountName));
@@ -43,15 +43,15 @@ public class SteemitConfiguration {
         List<ImmutablePair<PrivateKeyType, String>> privateKeys = new ArrayList<>();
         privateKeys.add(new ImmutablePair<>(PrivateKeyType.POSTING, postKey));
         privateKeys.add(new ImmutablePair<>(PrivateKeyType.ACTIVE, activeKey));
-            
+
         steemJConfig.getPrivateKeyStorage().addAccount(steemJConfig.getDefaultAccount(), privateKeys);
 
         return steemJConfig;
     }
 
     @Bean
-    BlockAppliedCallback blockAppliedCallback() { 
-        BlockAppliedCallback blockAppliedCallback = new BlockAppliedCallback(){
+    BlockAppliedCallback blockAppliedCallback() {
+        BlockAppliedCallback blockAppliedCallback = new BlockAppliedCallback() {
             @Override
             public void onNewBlock(SignedBlockHeader signedBlockHeader) {
                 log.info("onNewBlock: " + signedBlockHeader.toString());
@@ -63,7 +63,7 @@ public class SteemitConfiguration {
     }
 
     @Bean
-    SteemJ steemj() throws SteemCommunicationException, SteemResponseException { 
+    SteemJ steemj() throws SteemCommunicationException, SteemResponseException {
         SteemJ steemJ = new SteemJ();
         steemJ.setBlockAppliedCallback(blockAppliedCallback());
 

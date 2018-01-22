@@ -7,14 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.springframework.data.mongodb.core.query.Criteria.*;
-import static org.springframework.data.mongodb.core.query.Query.*;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 public class MongoService {
@@ -29,7 +27,7 @@ public class MongoService {
         List<Vote> votes =
                 mongoTemplate.find(query(
                         where("type").is("vote").
-                        and("timestamp").
+                                and("timestamp").
                                 gte(start.getTime()).
                                 lt(end.getTime())).
                         with(new Sort("timestamp", "-1")).

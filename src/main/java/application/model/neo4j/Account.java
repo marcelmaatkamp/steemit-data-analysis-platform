@@ -1,6 +1,6 @@
 package application.model.neo4j;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -9,44 +9,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
+@NoArgsConstructor
+@ToString(of = {"id","name"})
 public class Account {
-
-    @GraphId
-    Long id;
-
-    public String name;
-
-    @Relationship(type = "AUTHOR", direction=Relationship.UNDIRECTED)
-    public Set<Permlink> posts = new HashSet<>();
-
-    @Relationship(type = "VOTES", direction=Relationship.UNDIRECTED)
-    public Set<Vote> votes = new HashSet<>();
-
-    public Account() {
-    }
 
     public Account(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
+    @Getter
+    public String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Getter
+    @Relationship(type = "AUTHOR", direction = Relationship.UNDIRECTED)
+    public Set<Permlink> posts = new HashSet<>();
 
-    public Set<Permlink> getPosts() {
-        return posts;
-    }
+    @Getter
+    @Relationship(type = "VOTES", direction = Relationship.UNDIRECTED)
+    public Set<Vote> votes = new HashSet<>();
 
-    public void setPosts(Set<Permlink> posts) {
-        this.posts = posts;
-    }
-
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
-    }
+    @Getter
+    @GraphId
+    Long id;
 
 }

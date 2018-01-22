@@ -24,12 +24,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 @Configuration
 @Slf4j
-public class RabbitMQConfiguration { 
+public class RabbitMQConfiguration {
 
     @Autowired
     org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory;
@@ -80,17 +79,20 @@ public class RabbitMQConfiguration {
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
 
         // Lets insert into Neo4j
-        Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
-        if (permlink == null) {
-            permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
-        }
 
         Account author = accountRepository.findByName(extendedAuthorAccount.getName().getName());
         if (author == null) {
             author = new Account(extendedAuthorAccount.getName().getName());
-            author.posts.add(permlink);
-            author = accountRepository.save(author);
         }
+        Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
+        if (permlink == null) {
+            permlink = permlinkRepository.save(new Permlink(author, vote.permlink.getLink()));
+            author.posts.add(permlink);
+        } else if(!author.posts.contains(permlink)) {
+            author.posts.add(permlink);
+        }
+        author = accountRepository.save(author);
+
         Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());
         if (voter == null) {
             voter = new Account(extendedVoterAccount.getName().getName());

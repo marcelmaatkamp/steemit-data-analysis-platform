@@ -24,9 +24,11 @@ public class Discussion extends Comment {
     public List<AccountName> rebloggedBy;
     public AccountName firstRebloggedBy;
     public Date firstRebloggedOn;
-    @GraphId Long id;
+    @GraphId
+    Long id;
 
-    public Discussion() { }
+    public Discussion() {
+    }
 
     public String getUrl() {
         return url;
