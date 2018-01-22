@@ -8,6 +8,7 @@ public interface VoteRepository extends GraphRepository<Vote> {
 
     // @Query("MATCH (m:Vote)<-[rating:RATED]-(user) WHERE id(m) = {movieId} RETURN rating")
     // List<Vote> getRatings(@Param("movieID") Long movieId);
+    Vote findById(Long id);
     Vote findByVoter(Account voter);
 
 }

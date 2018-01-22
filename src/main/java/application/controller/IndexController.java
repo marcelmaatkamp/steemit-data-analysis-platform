@@ -28,4 +28,11 @@ public class IndexController {
         return modelAndView;
     }
 
+    @RequestMapping("/votes")
+    ModelAndView votes(Vote vote, ModelAndView modelAndView) throws SteemResponseException, SteemCommunicationException {
+        modelAndView.addObject("hardforkVersion", steemJ.getHardforkVersion());
+        modelAndView.setViewName("votes");
+        return modelAndView;
+    }
+
 }

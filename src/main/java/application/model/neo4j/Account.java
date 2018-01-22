@@ -9,27 +9,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
+@Data
+@RequiredArgsConstructor
 @NoArgsConstructor
-@ToString(of = {"id","name"})
+@EqualsAndHashCode(exclude = {"posts", "votes"})
+@ToString(exclude = {"posts", "votes"})
 public class Account {
-
-    public Account(String name) {
-        this.name = name;
-    }
-
-    @Getter
+    @NonNull
     public String name;
-
-    @Getter
     @Relationship(type = "AUTHOR", direction = Relationship.UNDIRECTED)
     public Set<Permlink> posts = new HashSet<>();
-
-    @Getter
     @Relationship(type = "VOTES", direction = Relationship.UNDIRECTED)
     public Set<Vote> votes = new HashSet<>();
-
-    @Getter
     @GraphId
-    Long id;
-
+    public Long id;
 }

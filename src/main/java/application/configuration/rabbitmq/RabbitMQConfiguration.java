@@ -60,11 +60,11 @@ public class RabbitMQConfiguration {
     )
             // ,containerFactory="STATUS_LISTENER_CONTAINER_FACTORY"
     )
-    public void process(byte[] message) throws IOException, SteemCommunicationException, SteemResponseException {
+    public void process(byte[] message) throws IOException {
         application.model.json.Vote vote = objectMapper.readValue(new String(message), application.model.json.Vote.class);
-        log.info("vote: " + vote.toString());
+        // log.info("vote: " + vote.toString());
 
-        save(vote);
+        // save(vote);
 
 
     }
@@ -79,18 +79,15 @@ public class RabbitMQConfiguration {
         ExtendedAccount extendedVoterAccount = extendedAccounts.get(1);
 
         // Lets insert into Neo4j
-
         Account author = accountRepository.findByName(extendedAuthorAccount.getName().getName());
         if (author == null) {
             author = new Account(extendedAuthorAccount.getName().getName());
         }
         Permlink permlink = permlinkRepository.findByLink(vote.permlink.getLink());
         if (permlink == null) {
-            permlink = permlinkRepository.save(new Permlink(author, vote.permlink.getLink()));
-            author.posts.add(permlink);
-        } else if(!author.posts.contains(permlink)) {
-            author.posts.add(permlink);
+            permlink = permlinkRepository.save(new Permlink(vote.permlink.getLink()));
         }
+        author.posts.add(permlink);
         author = accountRepository.save(author);
 
         Account voter = accountRepository.findByName(extendedVoterAccount.getName().getName());
@@ -99,10 +96,7 @@ public class RabbitMQConfiguration {
             voter = accountRepository.save(voter);
         }
 
-        Vote voteByBVoter = new Vote();
-        voteByBVoter.permlink = permlink;
-        voteByBVoter.voter = voter;
-        voteByBVoter.weight = vote.weight;
+        Vote voteByBVoter = new Vote(voter, permlink, vote.weight);
         voteRepository.save(voteByBVoter);
     }
 

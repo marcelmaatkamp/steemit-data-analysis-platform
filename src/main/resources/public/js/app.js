@@ -1,21 +1,37 @@
-var colors = d3.scaleOrdinal(d3.schemeCategory10);
+    var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height"),
-    node,
-    link;
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        node,
+        link;
 
-svg.append('defs').append('marker')
-    .attrs({
-        'id': 'arrowhead',
-        'viewBox': '-0 -5 10 10',
-        'refX': 13,
-        'refY': 0,
-        'orient': 'auto',
-        'markerWidth': 13,
-        'markerHeight': 13,
-        'xoverflow': 'visible'
+    svg.append('defs').append('marker')
+        .attrs({'id':'arrowhead',
+            'viewBox':'-0 -5 10 10',
+            'refX':13,
+            'refY':0,
+            'orient':'auto',
+            'markerWidth':13,
+            'markerHeight':13,
+            'xoverflow':'visible'})
+        .append('svg:path')
+        .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+        .attr('fill', '#999')
+        .style('stroke','none');
+
+    var simulation = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function (d) {return d.id;}).distance(100).strength(1))
+        .force("charge", d3.forceManyBody())
+        .force("center", d3.forceCenter(width / 2, height / 2));
+
+// http://localhost:8080/api/vote/all
+
+    d3.json("api/vote/all", function (error, graph) {
+        if (error) throw error;
+          console.log(graph[0]);
+
+        update(graph.nodes);
     })
     .append('svg:path')
     .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
